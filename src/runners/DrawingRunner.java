@@ -41,7 +41,7 @@ public class DrawingRunner implements Runnable{
 	private int maximumPixels;
 	
 	
-	public DrawingRunner(DrawingRunnableParameter parameter, File picFile, int offset, int maxPixelSize) {
+	public DrawingRunner(DrawingRunnableParameter parameter) {
 		this.bufferedImage = parameter.getImg();
 		this.primeList = (ArrayList<String>) parameter.getPrimes();
 		this.primeColor1 = parameter.getPrimePalette().getPrime1();
@@ -51,9 +51,9 @@ public class DrawingRunner implements Runnable{
 		this.picWidth = parameter.getWidth();
 		this.picHeight = parameter.getHeight();
 		this.totalPixelCount = picWidth * (long)picHeight;
-		this.primePicFile = picFile;
-		this.offset = offset;
-		this.maximumPixels = maxPixelSize;
+		this.primePicFile = parameter.getPrimePictureFileLocation();
+		this.offset = parameter.getStartingIndex();
+		this.maximumPixels = parameter.getMaxNumberOfPixels();
 	}
 	
 	public void startDrawingPicture() {

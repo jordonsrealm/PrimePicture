@@ -154,16 +154,20 @@ public class MainForm extends JPanel implements ActionListener{
 			int heightSize = Integer.parseInt(hTextFieldText);
 			int widthSize  = Integer.parseInt(wTextFieldText);
 			
-			logger.info("Picture size: {} x {} is the width and {}" + " is the prime size", widthSize, heightSize, readingThread != null);
+			logger.info("Picture size: {} x {} is the width and {} is the prime size", widthSize, heightSize, readingThread != null);
+			
+			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
 			
 			DrawingRunnableParameter parameter = new DrawingRunnableParameter(new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR), 
 																			  new Dimension(widthSize, heightSize), 
 																			  readingThread.getPrimes(), 
 																			  this, 
-																			  listener.getPrimePalette());
+																			  listener.getPrimePalette(),
+																			  primePictureFile,
+																			  0 /* starting index */,
+																			  readingThread.getMaxFileSize());
 			
-			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
-			myDrawingRunner = new DrawingRunner(parameter, primePictureFile, 0, readingThread.getMaxFileSize());
+			myDrawingRunner = new DrawingRunner(parameter);
 			UpdatingGUI updateGUI = new UpdatingGUI(this, primePictureFile);
 			
 			updateGUI.startUpdating();
