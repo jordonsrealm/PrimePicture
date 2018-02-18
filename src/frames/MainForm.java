@@ -179,7 +179,12 @@ public class MainForm extends JPanel implements ActionListener{
 			logger.debug("No input value for text field");
 			return false;
 		}
-		return !text.matches(".*\\D.*");
+		if( !text.matches(".*\\D.*") && Integer.parseInt(text) > 15000) {
+			logger.debug("Input value is too large to process");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public JButton getChooser1() {
