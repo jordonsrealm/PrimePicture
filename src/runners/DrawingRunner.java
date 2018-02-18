@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import drawingparameters.DrawingRunnableParameter;
+import frames.MainForm;
 
 
 public class DrawingRunner implements Runnable{
@@ -37,9 +38,10 @@ public class DrawingRunner implements Runnable{
 	private Thread thread;
 	private File primePicFile;
 	private int offset;
+	private int maximumPixels;
 	
 	
-	public DrawingRunner(DrawingRunnableParameter parameter, File picFile, int offset) {
+	public DrawingRunner(DrawingRunnableParameter parameter, File picFile, int offset, int maxPixelSize) {
 		this.bufferedImage = parameter.getImg();
 		this.primeList = (ArrayList<String>) parameter.getPrimes();
 		this.primeColor1 = parameter.getPrimePalette().getPrime1();
@@ -51,6 +53,7 @@ public class DrawingRunner implements Runnable{
 		this.totalPixelCount = picWidth * (long)picHeight;
 		this.primePicFile = picFile;
 		this.offset = offset;
+		this.maximumPixels = maxPixelSize;
 	}
 	
 	public void startDrawingPicture() {
@@ -125,11 +128,6 @@ public class DrawingRunner implements Runnable{
 	private void processImage() {
 		logger.info("DrawingRunner thread is now drawing");
 		
-		int ones = 0;
-		int threes = 0;
-		int sevens = 0;
-		int nines = 0;
-		
 		for(int x = 0;x < totalPixelCount; x++) {
 			int xpt= (x%(picWidth));
 			int ypt= (x/(picWidth));
@@ -137,19 +135,15 @@ public class DrawingRunner implements Runnable{
 			String totalLengthStr = (x + offset)+ "";
 			String lastNumber = totalLengthStr.charAt(totalLengthStr.length() - 1) + "";
 			
-			if( this.primeList.get(index).equals(totalLengthStr) ) {
+			if( index < maximumPixels && this.primeList.get(index).equals(totalLengthStr) ) {
 				switch (lastNumber) {
 				case "1": bufferedImage.setRGB(xpt, ypt, primeColor1.getRGB());
-						  ones++;
 						  break;
 				case "3": bufferedImage.setRGB(xpt, ypt, primeColor3.getRGB());
-						  threes++;
 						  break;
 			    case "7": bufferedImage.setRGB(xpt, ypt, primeColor7.getRGB());
-			    		  sevens++;
-						  break;
+			    		  break;
 				case "9": bufferedImage.setRGB(xpt, ypt, primeColor9.getRGB());
-						  nines++;
 						  break;
 				default: break;
 				}
@@ -165,8 +159,14 @@ public class DrawingRunner implements Runnable{
 		// This registers a full progress of drawn since the for loop 
 		// doesn't finish up to the totalPixelCount value
 		totalPixels++;
-		logger.info("1s: {}, 3s: {}, 7s: {}, 9s: {}", ones, threes, sevens, nines);
 		logger.info("Finished processing buffered image {} by {}...", picWidth, picHeight);
+		
+		// Check if the dimension the user inputted are larger than the file size of primes
+		if(index > maximumPixels) {
+			logger.debug("Dimension provided exceeds the file size of primes, adding a custom "
+						 + "file to the project that exceeds the current dimension will work as well.");
+		}
+		
 	}
 
 	private void nullCheck() {

@@ -73,4 +73,8 @@ public class DrawingRunnableParameter {
 		this.primePalette = primePalette;
 	}
 	
+	public int getMaxDimensionSize() {
+		return this.height * this.width;
+	}
+	
 }

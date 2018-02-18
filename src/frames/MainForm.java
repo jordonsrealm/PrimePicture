@@ -163,7 +163,7 @@ public class MainForm extends JPanel implements ActionListener{
 																			  listener.getPrimePalette());
 			
 			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
-			myDrawingRunner = new DrawingRunner(parameter, primePictureFile, 12);
+			myDrawingRunner = new DrawingRunner(parameter, primePictureFile, 0, readingThread.getMaxFileSize());
 			UpdatingGUI updateGUI = new UpdatingGUI(this, primePictureFile);
 			
 			updateGUI.startUpdating();

@@ -17,6 +17,7 @@ public class ReadingThread implements Runnable{
 	private InputStream picFile = null;
 	private ArrayList<String> primeArray = new ArrayList<>();
 	private Thread thread;
+	private int maxFileSize = 0;
 	
 	
 	public ReadingThread(InputStream inputStream) {
@@ -53,10 +54,19 @@ public class ReadingThread implements Runnable{
 				primeArray.add(line);
 			}
 			
+			setMaxFileSize(primeArray.size());
 		} catch (IOException e) {
 			logger.error("Some bad shit happened when reading the input stream", e);
 		}
 		logger.info("Ended reading of primes with length: {}", primeArray.size());
+	}
+	
+	private void setMaxFileSize(int newValue) {
+		this.maxFileSize = newValue;
+	}
+	
+	public int getMaxFileSize() {
+		return maxFileSize;
 	}
 	
 	public List<String> getPrimes(){
