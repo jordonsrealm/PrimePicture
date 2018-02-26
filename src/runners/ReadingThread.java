@@ -23,9 +23,6 @@ public class ReadingThread implements Runnable{
 	private int maxFileSize = 0;
 	
 	
-	public ReadingThread() {
-	}
-	
 	public void startReadingPrimes() {
 		logger.debug("Starting thread for reading primes");
 		if(thread == null) {
