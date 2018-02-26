@@ -8,14 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import drawingparameters.DrawingRunnableParameter;
-import frames.MainForm;
 
 
 public class DrawingRunner implements Runnable{
@@ -81,11 +77,9 @@ public class DrawingRunner implements Runnable{
 		
 		for(int x =0; x< 1;x++) {
 			this.offset = x;
-			
 			// Set the current index for reading the prime list
 			index = adjustedIndex(offset);
 			processImage();
-
 			writeImage();
 		}
 		
@@ -96,7 +90,6 @@ public class DrawingRunner implements Runnable{
 			logger.info("Calling DrawingRunner thread to stop...");
 			primePicFile.notifyAll();
 		}
-		
 	}
 
 	private void writeImage() {

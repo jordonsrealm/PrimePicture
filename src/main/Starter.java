@@ -16,11 +16,9 @@ import runners.ReadingThread;
 public class Starter {
 	
 	private static final Logger logger = LogManager.getLogger(Logger.class.getName());
-	
-	private static final String ONE_MILLION_PRIMES = "res/OneMillionPrimes.txt";
 	private static final String ICON_FILE_LOCATION = "/res/primePictureIcon.jpg";
 	private JFrame frame = new JFrame("PrimePicture");
-	private ReadingThread myReader = null;
+	private ReadingThread myReader = new ReadingThread();
 	private MainForm form;
 	private static Starter starter;
 	
@@ -73,14 +71,7 @@ public class Starter {
 	private void loadPrimes() {
 		starter.form.getGeneratePicButton().setEnabled(false);
 		starter.form.getProgressBar().setString("Loading Primes...");
-		try {
-			ClassLoader loader = Starter.class.getClassLoader();
-			URL url = loader.getResource(ONE_MILLION_PRIMES);
-			myReader = new ReadingThread(url.openStream());
-			myReader.startReadingPrimes();
-		} catch (IOException e) {
-			logger.debug("Error getting text file", e);
-		}
+		myReader.startReadingPrimes();
 		
 		starter.form.getProgressBar().setString("Loaded Primes!");
 		starter.form.setReadingThread(myReader);
