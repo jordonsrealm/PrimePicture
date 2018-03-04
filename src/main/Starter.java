@@ -1,14 +1,23 @@
 package main;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
 import javax.imageio.ImageIO;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import components.MyMenuBar;
 import frames.MainForm;
 import runners.ReadingThread;
 
@@ -32,15 +41,24 @@ public class Starter {
 		// Adds the main form to the JFrame
 		form = new MainForm(myReader);
 		
+		// Add JMenuBar
+		addMenuBar();
+		
 		// Add special formatting for JFrame and add image to the frame's icon
 		addFormatting(frame);
 	}
-	
+
+
 	// Main Method
 	public static void main(String[] args) {
 		setUpLookAndFeel();
 		starter = new Starter();
 		starter.loadPrimes();
+	}
+	
+	private void addMenuBar() {
+		JMenuBar menuBar = new MyMenuBar(this.form);
+		frame.setJMenuBar(menuBar);
 	}
 	
 	private static void setUpLookAndFeel() {

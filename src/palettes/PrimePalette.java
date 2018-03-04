@@ -9,13 +9,15 @@ public class PrimePalette {
 	private Color prime3;
 	private Color prime7;
 	private Color prime9;
+	private Color background;
 	
 	
-	public PrimePalette(Color prime1Num, Color prime3Num, Color prime7Num, Color prime9Num) {
+	public PrimePalette(Color prime1Num, Color prime3Num, Color prime7Num, Color prime9Num, Color backgroundColor) {
 		this.prime1 = prime1Num;
 		this.prime3 = prime3Num;
 		this.prime7 = prime7Num;
 		this.prime9 = prime9Num;
+		this.background = backgroundColor;
 	}
 	
 	public void setPrimePalette(Color prime1Num, Color prime3Num, Color prime7Num, Color prime9Num) {
@@ -26,7 +28,7 @@ public class PrimePalette {
 	}
 	
 	public PrimePalette getPrimePalette() {
-		return new PrimePalette(prime1, prime3, prime7, prime9);
+		return new PrimePalette(prime1, prime3, prime7, prime9, background);
 	}
 	
 
@@ -60,6 +62,14 @@ public class PrimePalette {
 
 	public void setPrime9(Color prime9) {
 		this.prime9 = prime9;
+	}
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
 	}
 	
 }

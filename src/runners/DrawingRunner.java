@@ -24,6 +24,7 @@ public class DrawingRunner implements Runnable{
 	private Color primeColor3;
 	private Color primeColor7;
 	private Color primeColor9;
+	private Color backgroundColor;
 	private int picWidth  = 0;
 	private int picHeight = 0;
 	private Long totalPixelCount = (long) 0;
@@ -35,6 +36,7 @@ public class DrawingRunner implements Runnable{
 	private File primePicFile;
 	private int offset;
 	private int maximumPixels;
+
 	
 	
 	public DrawingRunner(DrawingRunnableParameter parameter) {
@@ -50,6 +52,7 @@ public class DrawingRunner implements Runnable{
 		this.primePicFile = parameter.getPrimePictureFileLocation();
 		this.offset = parameter.getStartingIndex();
 		this.maximumPixels = parameter.getMaxNumberOfPixels();
+		this.backgroundColor = parameter.getPrimePalette().getBackground();
 	}
 	
 	public void startDrawingPicture() {
@@ -143,7 +146,7 @@ public class DrawingRunner implements Runnable{
 				
 				index++;
 			} else {
-				bufferedImage.setRGB(xpt, ypt, Color.BLACK.getRGB());
+				bufferedImage.setRGB(xpt, ypt, this.backgroundColor.getRGB());
 			}
 			
 			totalPixels = (long) x;

@@ -1,6 +1,7 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -36,7 +37,8 @@ public class MainForm extends JPanel implements ActionListener{
 	private static final String PRIME_PICS_HD = System.getProperty("user.home") + "/Desktop" + "\\PrimePicForVideo\\";
 	private static final int FORM_WIDTH = 400;
 	private static final int FORM_HEIGHT = 150;
-	
+	Color backGroundColor = null;
+
 	JTextField heightField = new JTextField(20);
 	JTextField widthField  = new JTextField(20);
 	transient MyAdapter adapter  = null;
@@ -158,6 +160,8 @@ public class MainForm extends JPanel implements ActionListener{
 			
 			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
 			
+			listener.setBackgroundColor(this.backGroundColor);
+			
 			DrawingRunnableParameter parameter = new DrawingRunnableParameter(new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR), 
 																			  new Dimension(widthSize, heightSize), 
 																			  readingThread.getPrimes(), 
@@ -243,4 +247,11 @@ public class MainForm extends JPanel implements ActionListener{
 		return this.readingThread;
 	}
 
+	public Color getBackGroundColor() {
+		return backGroundColor;
+	}
+
+	public void setBackGroundColor(Color backGroundColor) {
+		this.backGroundColor = backGroundColor;
+	}
 }

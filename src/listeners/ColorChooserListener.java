@@ -20,6 +20,7 @@ public class ColorChooserListener implements ActionListener {
 	Color primes3 = Color.WHITE;
 	Color primes7 = Color.WHITE;
 	Color primes9 = Color.WHITE;
+	Color backgroundColor = null;
 	
 	JLabel label1 = null;
 	JLabel label3 = null; 
@@ -38,7 +39,7 @@ public class ColorChooserListener implements ActionListener {
 	}
 	
 	public PrimePalette getPrimePalette() {
-		return new PrimePalette(primes1, primes3, primes7, primes9);
+		return new PrimePalette(primes1, primes3, primes7, primes9, backgroundColor);
 	}
 	
 
@@ -59,6 +60,14 @@ public class ColorChooserListener implements ActionListener {
 
 	public Color getPrimes9Color() {
 		return primes9;
+	}
+	
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 	
 	@Override
