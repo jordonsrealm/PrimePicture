@@ -7,11 +7,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import frames.MainForm;
 
 
 public class MyMenuBar extends JMenuBar {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	static final Logger logger = LogManager.getLogger(Logger.class.getName());
 	MainForm mainForm;
 	Color backgroundColor;
 	
@@ -26,7 +34,7 @@ public class MyMenuBar extends JMenuBar {
 													if(backgroundColor == null) {
 														backgroundColor = new Color(Color.TRANSLUCENT);
 													}
-												if(mainForm == null) System.out.println("Main form is null");
+												if(mainForm == null) logger.debug("Main form is null");
 												this.mainForm.setBackGroundColor(backgroundColor);
 												}
 											);

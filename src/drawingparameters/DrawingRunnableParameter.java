@@ -1,17 +1,17 @@
 package drawingparameters;
 
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 import frames.MainForm;
 import palettes.PrimePalette;
+import pictures.ImageHolder;
 
 
 public class DrawingRunnableParameter {
 	private BufferedImage img; 
-	int height;
-	int width;
+	private int height;
+	private int width;
 	private List<String> primes;
 	private MainForm mainForm;
 	private PrimePalette primePalette;
@@ -20,16 +20,16 @@ public class DrawingRunnableParameter {
 	private int maxNumberOfPixels;
 	
 	
-	public DrawingRunnableParameter(BufferedImage image, Dimension size, List<String> primesList, MainForm form, PrimePalette palette, File primePictureFile, int startIndex, int maximumNumberOfPixels) {
-		this.img = image;
-		this.height = size.height;
-		this.width = size.width;
+	public DrawingRunnableParameter(ImageHolder imgHolder, List<String> primesList, MainForm form) {
+		this.img = imgHolder.getBufferedImage();
+		this.height = imgHolder.getBufferedImage().getWidth();
+		this.width = imgHolder.getBufferedImage().getHeight();
+		this.primePalette = imgHolder.getPrimePalette();
+		this.primePictureFileLocation = imgHolder.getPrimePictureFile();
+		this.startingIndex = imgHolder.getStart();
+		this.maxNumberOfPixels = imgHolder.getMaxNumberPixel();
 		this.primes = primesList;
 		this.mainForm = form;
-		this.setPrimePalette(palette);
-		this.primePictureFileLocation = primePictureFile;
-		this.startingIndex = startIndex;
-		this.maxNumberOfPixels = maximumNumberOfPixels;
 	}
 
 	public BufferedImage getImg() {

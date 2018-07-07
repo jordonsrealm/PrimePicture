@@ -16,18 +16,18 @@ public class ColorChooserListener implements ActionListener {
 
 	static final Logger logger = LogManager.getLogger(Logger.class.getName());
 	
-	Color primes1 = Color.WHITE;
-	Color primes3 = Color.WHITE;
-	Color primes7 = Color.WHITE;
-	Color primes9 = Color.WHITE;
-	Color backgroundColor = null;
+	private Color primes1 = Color.WHITE;
+	private Color primes3 = Color.WHITE;
+	private Color primes7 = Color.WHITE;
+	private Color primes9 = Color.WHITE;
 	
-	JLabel label1 = null;
-	JLabel label3 = null; 
-	JLabel label7 = null; 
-	JLabel label9 = null;
+	private JLabel label1 = null;
+	private JLabel label3 = null; 
+	private JLabel label7 = null; 
+	private JLabel label9 = null;
 	
-	MainForm mainForm = null;
+	private Color backgroundColor = null;
+	private MainForm mainForm = null;
 	
 	
 	public ColorChooserListener(MainForm form) {

@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import adapters.MyAdapter;
 import drawingparameters.DrawingRunnableParameter;
 import listeners.ColorChooserListener;
+import pictures.ImageHolder;
 import runners.DrawingRunner;
 import runners.ReadingThread;
 import runners.UpdatingGUI;
@@ -31,34 +32,34 @@ import runners.UpdatingGUI;
 
 public class MainForm extends JPanel implements ActionListener{
 
-	private static final long serialVersionUID = 1L;
 	static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	private static final long serialVersionUID = 1L;
 	
 	private static final String PRIME_PICS_HD = System.getProperty("user.home") + "/Desktop" + "\\PrimePicForVideo\\";
 	private static final int FORM_WIDTH = 400;
 	private static final int FORM_HEIGHT = 150;
-	Color backGroundColor = null;
+	private Color backGroundColor = null;
 
-	JTextField heightField = new JTextField(20);
-	JTextField widthField  = new JTextField(20);
+	private JTextField heightField = new JTextField(20);
+	private JTextField widthField  = new JTextField(20);
 	transient MyAdapter adapter  = null;
 	transient ColorChooserListener listener = null;
 	
-	JButton chooser1 = new JButton("Ends with 1");
-	JButton chooser3 = new JButton("Ends with 3");
-	JButton chooser7 = new JButton("Ends with 7");
-	JButton chooser9 = new JButton("Ends with 9");
+	private JButton chooser1 = new JButton("Ends with 1");
+	private JButton chooser3 = new JButton("Ends with 3");
+	private JButton chooser7 = new JButton("Ends with 7");
+	private JButton chooser9 = new JButton("Ends with 9");
 
-	JLabel choose1Label = new JLabel();
-	JLabel choose3Label = new JLabel();
-	JLabel choose7Label = new JLabel();
-	JLabel choose9Label = new JLabel();
+	private JLabel choose1Label = new JLabel();
+	private JLabel choose3Label = new JLabel();
+	private JLabel choose7Label = new JLabel();
+	private JLabel choose9Label = new JLabel();
 	
-	JButton generatePic    = new JButton("Create Picture");
-	JProgressBar progressBar = new JProgressBar();
+	private JButton generatePic    = new JButton("Create Picture");
+	private JProgressBar progressBar = new JProgressBar();
 	
-	transient DrawingRunner myDrawingRunner;
-	transient ReadingThread readingThread = null;
+	private transient DrawingRunner myDrawingRunner;
+	private transient ReadingThread readingThread = null;
 	
 	
 	public MainForm(ReadingThread rThread) {
@@ -93,26 +94,24 @@ public class MainForm extends JPanel implements ActionListener{
 		choose1Label.setOpaque(true);
 		choose1Label.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
 		choose3Label.setOpaque(true);
-		choose3Label.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
+		choose3Label.setBorder(new EmptyBorder(0,10,0,0));
 		choose7Label.setOpaque(true);
-		choose7Label.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
+		choose7Label.setBorder(new EmptyBorder(0,10,0,0));
 		choose9Label.setOpaque(true);
-		choose9Label.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
+		choose9Label.setBorder(new EmptyBorder(0,10,0,0));
 		
 		JPanel middlePanel = new JPanel(new GridLayout(3,4));
 		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
 		
 		widthField.addMouseListener(new MyAdapter(this));
-		widthField.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
+		widthField.setBorder(new EmptyBorder(0,10,0,0));
 		heightField.addMouseListener(new MyAdapter(this));
-		heightField.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
-		//widthField.setBorder(BorderFactory.createTitledBorder("Width"));
-		//heightField.setBorder(BorderFactory.createTitledBorder("Height"));
+		heightField.setBorder(new EmptyBorder(0,10,0,0));
 		
 		JLabel hLabel = new JLabel("Height");
-		hLabel.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
+		hLabel.setBorder(new EmptyBorder(0,10,0,0));
 		JLabel wLabel = new JLabel("Width");
-		wLabel.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
+		wLabel.setBorder(new EmptyBorder(0,10,0,0));
 		
 		middlePanel.add(hLabel);
 		middlePanel.add(heightField);
@@ -149,27 +148,29 @@ public class MainForm extends JPanel implements ActionListener{
 		String hTextFieldText = heightField.getText();
 		String wTextFieldText = widthField.getText();
 		
-		//
 		// Checks for non numberic characters
-		//
 		if(onlyNumbers(hTextFieldText) && onlyNumbers(wTextFieldText)) {
 			int heightSize = Integer.parseInt(hTextFieldText);
 			int widthSize  = Integer.parseInt(wTextFieldText);
 			
-			logger.info("Picture size: {} x {} is the width and {} is the prime size", widthSize, heightSize, readingThread != null);
+			String message = "Picture size: {} x {} is the width and {} is the prime size";
+			
+			logger.info(message, widthSize, heightSize);
 			
 			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
 			
 			listener.setBackgroundColor(this.backGroundColor);
 			
-			DrawingRunnableParameter parameter = new DrawingRunnableParameter(new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR), 
-																			  new Dimension(widthSize, heightSize), 
+			ImageHolder imageHolder = new ImageHolder(new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR),
+					  								  listener.getPrimePalette(),
+													  primePictureFile,
+													  0 /* starting index */,
+													  readingThread.getMaxFileSize()
+													  );
+			
+			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, 
 																			  readingThread.getPrimes(), 
-																			  this, 
-																			  listener.getPrimePalette(),
-																			  primePictureFile,
-																			  0 /* starting index */,
-																			  readingThread.getMaxFileSize());
+																			  this);
 			
 			myDrawingRunner = new DrawingRunner(parameter);
 			UpdatingGUI updateGUI = new UpdatingGUI(this, primePictureFile);

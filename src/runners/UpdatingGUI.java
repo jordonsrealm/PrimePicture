@@ -71,8 +71,6 @@ public class UpdatingGUI implements Runnable{
 			}
 		}
 		
-		// Set progress bar to 100% since everything is now finished
-		//this.mainForm.getProgressBar().setValue(100);
 		this.mainForm.getProgressBar().setStringPainted(true);
 		this.mainForm.getProgressBar().setString("Finished");
 		this.mainForm.getGeneratePicButton().setEnabled(true);
