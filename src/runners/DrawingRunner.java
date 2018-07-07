@@ -146,6 +146,7 @@ public class DrawingRunner implements Runnable{
 				
 				index++;
 			} else {
+				logger.info("{}, {}, {}", xpt, ypt, this.backgroundColor);
 				bufferedImage.setRGB(xpt, ypt, this.backgroundColor.getRGB());
 			}
 			

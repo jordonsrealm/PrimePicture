@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import components.MyMenuBar;
+import configuration.ConfigurationGetter;
 import frames.MainForm;
 import runners.ReadingThread;
 
@@ -26,10 +27,18 @@ public class Starter {
 	private ReadingThread myReader = new ReadingThread();
 	private MainForm form;
 	private static Starter starter;
+	private ConfigurationGetter configGetter;
 	
 	
 	// Starter Constructor
-	public Starter() {
+	public Starter() throws IOException {
+		try{
+			configGetter = new ConfigurationGetter();
+			configGetter.setPropertyValues();
+		}catch(IOException e) {
+			logger.error("Error when opening configuration properties file", e);
+			throw e;
+		}
 		
 		// Sets the icon image for the JFrame
 		addIconImage();
@@ -47,9 +56,15 @@ public class Starter {
 
 	// Main Method
 	public static void main(String[] args) {
+		
 		setUpLookAndFeel();
-		starter = new Starter();
-		starter.loadPrimes();
+		
+		try {
+			starter = new Starter();
+			starter.loadPrimes();
+		} catch (IOException e) {
+			logger.error("Error when creating new Starter object", e);
+		}
 	}
 	
 	private void addMenuBar() {

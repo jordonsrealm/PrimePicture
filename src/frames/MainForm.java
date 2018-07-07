@@ -153,13 +153,13 @@ public class MainForm extends JPanel implements ActionListener{
 			int heightSize = Integer.parseInt(hTextFieldText);
 			int widthSize  = Integer.parseInt(wTextFieldText);
 			
-			String message = "Picture size: {} x {} is the width and {} is the prime size";
+			String message = "Picture size: {} x {} is the width";
 			
 			logger.info(message, widthSize, heightSize);
 			
 			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
-			
-			listener.setBackgroundColor(this.backGroundColor);
+
+			listener.setBackgroundColor(new Color(0,0,0,0));
 			
 			ImageHolder imageHolder = new ImageHolder(new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR),
 					  								  listener.getPrimePalette(),

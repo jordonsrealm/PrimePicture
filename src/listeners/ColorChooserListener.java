@@ -38,43 +38,13 @@ public class ColorChooserListener implements ActionListener {
 		label9 = form.getChoose9Label();
 	}
 	
-	public PrimePalette getPrimePalette() {
-		return new PrimePalette(primes1, primes3, primes7, primes9, backgroundColor);
-	}
-	
-
-	public Color getPrimes1Color() {
-		return primes1;
-	}
-
-
-	public Color getPrimes3Color() {
-		return primes3;
-	}
-
-
-	public Color getPrimes7Color() {
-		return primes7;
-	}
-
-
-	public Color getPrimes9Color() {
-		return primes9;
-	}
-	
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String text = ((JButton)e.getSource()).getText();
+		String buttonText = ((JButton) e.getSource() ).getText();
 		
-		switch (text.charAt(text.length() - 1) + ""){
+		String compareStr = buttonText.charAt(buttonText.length() - 1) + "";
+		
+		switch (compareStr){
 		case "1": primes1 = JColorChooser.showDialog(mainForm, "Choose color for primes ending in '1'", Color.WHITE);
 				  this.label1.setBackground(primes1);
 				  break;
@@ -91,4 +61,31 @@ public class ColorChooserListener implements ActionListener {
 		}
 	}
 	
+	public PrimePalette getPrimePalette() {
+		return new PrimePalette(primes1, primes3, primes7, primes9, this.backgroundColor);
+	}
+	
+	public Color getPrimes1Color() {
+		return primes1;
+	}
+
+	public Color getPrimes3Color() {
+		return primes3;
+	}
+
+	public Color getPrimes7Color() {
+		return primes7;
+	}
+
+	public Color getPrimes9Color() {
+		return primes9;
+	}
+	
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
 }

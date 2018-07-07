@@ -16,7 +16,6 @@ import frames.MainForm;
 public class MyMenuBar extends JMenuBar {
 	
 	/**
-	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	static final Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -30,12 +29,12 @@ public class MyMenuBar extends JMenuBar {
 		JMenuItem menuItemBackground = new JMenuItem("Set Background Color");
 		
 		menuItemBackground.addActionListener(e ->{
-												backgroundColor = JColorChooser.showDialog(mainForm, "Select the background color", Color.WHITE);
+													backgroundColor = JColorChooser.showDialog(mainForm, "Select the background color", Color.WHITE);
 													if(backgroundColor == null) {
 														backgroundColor = new Color(Color.TRANSLUCENT);
 													}
-												if(mainForm == null) logger.debug("Main form is null");
-												this.mainForm.setBackGroundColor(backgroundColor);
+													
+													this.mainForm.setBackGroundColor(backgroundColor);
 												}
 											);
 		
