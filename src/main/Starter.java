@@ -22,7 +22,6 @@ import runners.ReadingThread;
 public class Starter {
 	
 	private static final Logger logger = LogManager.getLogger(Logger.class.getName());
-	private static String ICON_FILE_LOCATION;
 	private JFrame frame = new JFrame("PrimePicture");
 	private ReadingThread myReader = new ReadingThread();
 	private MainForm form;
@@ -32,7 +31,9 @@ public class Starter {
 	
 	// Starter Constructor
 	public Starter() throws IOException {
+		
 		configGetter = new ConfigurationGetter();
+		
 		// Sets the icon image for the JFrame
 		addIconImage(configGetter.getIconFileLocation());
 		
