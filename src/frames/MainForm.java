@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import adapters.MyAdapter;
+import configuration.ConfigurationGetter;
 import drawingparameters.DrawingRunnableParameter;
 import listeners.ColorChooserListener;
 import pictures.ImageHolder;
@@ -35,13 +36,11 @@ public class MainForm extends JPanel implements ActionListener{
 	static final Logger logger = LogManager.getLogger(Logger.class.getName());
 	private static final long serialVersionUID = 1L;
 	
-	private static final String PRIME_PICS_HD = System.getProperty("user.home") + "/Desktop" + "\\PrimePicForVideo\\";
-	private static final int FORM_WIDTH = 400;
-	private static final int FORM_HEIGHT = 150;
+	private String primePicsDefaultLocation;
 	private Color backGroundColor = null;
 
-	private JTextField heightField = new JTextField(20);
-	private JTextField widthField  = new JTextField(20);
+	private JTextField heightField;
+	private JTextField widthField;
 	transient MyAdapter adapter  = null;
 	transient ColorChooserListener listener = null;
 	
@@ -60,20 +59,24 @@ public class MainForm extends JPanel implements ActionListener{
 	
 	private transient DrawingRunner myDrawingRunner;
 	private transient ReadingThread readingThread = null;
+	private final transient  ConfigurationGetter configGetter;
 	
 	
-	public MainForm(ReadingThread rThread) {
-		listener = new ColorChooserListener(this);
-		readingThread = rThread;
+	public MainForm(ReadingThread rThread, ConfigurationGetter configGetter) {
+		this.listener = new ColorChooserListener(this);
+		this.readingThread = rThread;
+		this.configGetter = configGetter;
+		primePicsDefaultLocation = configGetter.getDesktopFileLocation();
+		
 		
 		makeForm();
 		
-		this.setPreferredSize(new Dimension(FORM_WIDTH,FORM_HEIGHT));
+		this.setPreferredSize(new Dimension(configGetter.getFormWidth(),configGetter.getFormHeight()));
 	}
 	
 	private MainForm makeForm() {
 		
-		Path path = Paths.get(PRIME_PICS_HD);
+		Path path = Paths.get(primePicsDefaultLocation);
 		
         if (!path.toFile().exists()) {
             try {
@@ -102,6 +105,10 @@ public class MainForm extends JPanel implements ActionListener{
 		
 		JPanel middlePanel = new JPanel(new GridLayout(3,4));
 		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
+		
+		int textFieldLength = configGetter.getTextFieldLength();
+		widthField = new JTextField(textFieldLength);
+		heightField = new JTextField(textFieldLength);
 		
 		widthField.addMouseListener(new MyAdapter(this));
 		widthField.setBorder(new EmptyBorder(0,10,0,0));
@@ -157,7 +164,7 @@ public class MainForm extends JPanel implements ActionListener{
 			
 			logger.info(message, widthSize, heightSize);
 			
-			File primePictureFile = new File(PRIME_PICS_HD + "PrimePicture_" + widthSize + "_" + heightSize);
+			File primePictureFile = new File(primePicsDefaultLocation + "PrimePicture_" + widthSize + "_" + heightSize);
 
 			listener.setBackgroundColor(new Color(0,0,0,0));
 			
@@ -188,7 +195,7 @@ public class MainForm extends JPanel implements ActionListener{
 			logger.debug("No input value for text field");
 			return false;
 		}
-		if( !text.matches(".*\\D.*") && Integer.parseInt(text) > 15000) {
+		if( !text.matches(".*\\D.*") && Integer.parseInt(text) > configGetter.getMaxDimension()) {
 			logger.debug("Input value is too large to process");
 			return false;
 		} else {
@@ -254,5 +261,9 @@ public class MainForm extends JPanel implements ActionListener{
 
 	public void setBackGroundColor(Color backGroundColor) {
 		this.backGroundColor = backGroundColor;
+	}
+
+	public ConfigurationGetter getConfigGetter() {
+		return configGetter;
 	}
 }

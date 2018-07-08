@@ -22,7 +22,7 @@ import runners.ReadingThread;
 public class Starter {
 	
 	private static final Logger logger = LogManager.getLogger(Logger.class.getName());
-	private static final String ICON_FILE_LOCATION = "/res/primePictureIcon.jpg";
+	private static String ICON_FILE_LOCATION;
 	private JFrame frame = new JFrame("PrimePicture");
 	private ReadingThread myReader = new ReadingThread();
 	private MainForm form;
@@ -32,19 +32,12 @@ public class Starter {
 	
 	// Starter Constructor
 	public Starter() throws IOException {
-		try{
-			configGetter = new ConfigurationGetter();
-			configGetter.setPropertyValues();
-		}catch(IOException e) {
-			logger.error("Error when opening configuration properties file", e);
-			throw e;
-		}
-		
+		configGetter = new ConfigurationGetter();
 		// Sets the icon image for the JFrame
-		addIconImage();
+		addIconImage(configGetter.getIconFileLocation());
 		
 		// Adds the main form to the JFrame
-		form = new MainForm(myReader);
+		form = new MainForm(myReader, configGetter);
 		
 		// Add JMenuBar
 		addMenuBar();
@@ -83,8 +76,8 @@ public class Starter {
 	}
 
 	// Gets the resource for the image to set the JFrame icon as
-	private void addIconImage() {
-		URL resource = getClass().getResource(ICON_FILE_LOCATION);
+	private void addIconImage(String iconImageLocation) {
+		URL resource = getClass().getResource(iconImageLocation);
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(resource);
