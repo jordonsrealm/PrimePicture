@@ -9,7 +9,7 @@ import frames.MainForm;
 
 public class UpdatingGUI implements Runnable{
 
-	private static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	private static final Logger logger = LogManager.getLogger(UpdatingGUI.class.getName());
 	
 	private MainForm mainForm;
 	private Thread updatingThread;

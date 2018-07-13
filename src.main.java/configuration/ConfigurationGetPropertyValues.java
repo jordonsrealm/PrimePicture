@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ConfigurationGetPropertyValues {
 	
-	public static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	public static final Logger logger = LogManager.getLogger(ConfigurationGetPropertyValues.class.getName());
 	
 	private static final String FORM_WIDTH = "FORM_WIDTH";
 	private static final String FORM_HEIGHT = "FORM_HEIGHT";

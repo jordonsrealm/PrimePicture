@@ -18,7 +18,7 @@ public class MyMenuBar extends JMenuBar {
 	/**
 	 */
 	private static final long serialVersionUID = 1L;
-	static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	static final Logger logger = LogManager.getLogger(MyMenuBar.class.getName());
 	MainForm mainForm;
 	Color backgroundColor;
 	

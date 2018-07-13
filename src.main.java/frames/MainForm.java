@@ -33,7 +33,7 @@ import runners.UpdatingGUI;
 
 public class MainForm extends JPanel implements ActionListener{
 
-	static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	static final Logger logger = LogManager.getLogger(MainForm.class.getName());
 	private static final long serialVersionUID = 1L;
 	
 	private String primePicsDefaultLocation;

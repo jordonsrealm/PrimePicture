@@ -16,7 +16,7 @@ import drawingparameters.DrawingRunnableParameter;
 
 public class DrawingRunner implements Runnable{
 	
-	public static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	public static final Logger logger = LogManager.getLogger(DrawingRunner.class.getName());
 	
 	private BufferedImage bufferedImage;
 	private ArrayList<String> primeList;
@@ -146,7 +146,6 @@ public class DrawingRunner implements Runnable{
 				
 				index++;
 			} else {
-				logger.info("{}, {}, {}", xpt, ypt, this.backgroundColor);
 				bufferedImage.setRGB(xpt, ypt, this.backgroundColor.getRGB());
 			}
 			

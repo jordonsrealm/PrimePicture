@@ -14,7 +14,7 @@ import palettes.PrimePalette;
 
 public class ColorChooserListener implements ActionListener {
 
-	static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	static final Logger logger = LogManager.getLogger(ColorChooserListener.class.getName());
 	
 	private Color primes1 = Color.WHITE;
 	private Color primes3 = Color.WHITE;

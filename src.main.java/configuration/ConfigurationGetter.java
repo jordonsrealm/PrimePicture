@@ -15,7 +15,7 @@ import primepicture.impl.Configurations;
 
 public class ConfigurationGetter implements Configurations{
 
-	public static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	public static final Logger logger = LogManager.getLogger(ConfigurationGetter.class.getName());
 	private Map<String, String> properties;
 	
 	private static final String FORM_WIDTH = "FORM_WIDTH";

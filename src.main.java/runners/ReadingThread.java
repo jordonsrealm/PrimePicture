@@ -15,7 +15,7 @@ import main.Starter;
 
 public class ReadingThread implements Runnable{
 	
-	private static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	private static final Logger logger = LogManager.getLogger(ReadingThread.class.getName());
 	
 	private static final String ONE_MILLION_PRIMES = "res/OneMillionPrimes.txt";
 	private ArrayList<String> primeArray = new ArrayList<>();

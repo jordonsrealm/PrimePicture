@@ -21,7 +21,7 @@ import runners.ReadingThread;
 
 public class Starter {
 	
-	private static final Logger logger = LogManager.getLogger(Logger.class.getName());
+	private static final Logger logger = LogManager.getLogger(Starter.class.getName());
 	private JFrame frame = new JFrame("PrimePicture");
 	private ReadingThread myReader = new ReadingThread();
 	private MainForm form;
