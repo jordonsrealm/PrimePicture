@@ -17,11 +17,11 @@ public class ImageHolder {
 	private int maxNumberPixel;
 	
 	
-	public ImageHolder(BufferedImage image, PrimePalette palette, File primePictureFile, int startIndex, int maximumNumberOfPixels) {
+	public ImageHolder(BufferedImage image, PrimePalette palette, String primePictureFile, int startIndex, int maximumNumberOfPixels) {
 		this.bufferedImage = image;
-		this.dimensions = new Dimension(image.getWidth(), image.getHeight());
+		this.dimensions = new Dimension(image.getWidth(), image.getWidth());
 		this.primePalette = palette;
-		this.primePictureFile = primePictureFile;
+		this.primePictureFile = new File(primePictureFile + "PrimePicture_" + image.getWidth() + "_" + image.getWidth());
 		this.start = startIndex;
 		this.maxNumberPixel = maximumNumberOfPixels;
 	}

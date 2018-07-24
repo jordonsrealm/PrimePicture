@@ -22,7 +22,6 @@ public class UpdatingGUI implements Runnable{
 	}
 	
 	public void stopUpdating() {
-		logger.info("Stop updating the progressbar");
 		if(updatingThread != null) {
 			try {
 				updatingThread.join();
@@ -35,8 +34,6 @@ public class UpdatingGUI implements Runnable{
 	}
 	
 	public void startUpdating() {
-		logger.info("Start updating the progressbar");
-		
 		if(updatingThread == null) {
 			updatingThread = new Thread(this, "GUIUpdatingThread");
 			updatingThread.start();
@@ -45,22 +42,21 @@ public class UpdatingGUI implements Runnable{
 	
 	@Override
 	public void run() {
-		logger.info("Starting to update the progressbar");
-		this.mainForm.getGeneratePicButton().setEnabled(false);
+		mainForm.disableGeneration();
 		
-		while(this.mainForm.getMyDrawingRunner().getIndex() > -1){
+		while(mainForm.getMyDrawingRunner().getIndex() > -1){
 			int progressValue = this.mainForm.getMyDrawingRunner().getProgress();
 			if(progressValue >= 50) {
-				this.mainForm.getProgressBar().setString("Writing image to disk...");
+				mainForm.setProgressString("Writing image to disk...");
 			} else {
-				this.mainForm.getProgressBar().setString("Settings pixels for image...");
+				mainForm.setProgressString("Settings pixels for image...");
 			}
-			this.mainForm.getProgressBar().setValue(progressValue);
-			this.mainForm.repaint();
+			mainForm.setProgressValue(progressValue);
+			mainForm.repaint();
 		}
 		
 		synchronized (primePicLocation) {
-			while(this.mainForm.getMyDrawingRunner().getIndex() > -1) {
+			while(mainForm.getMyDrawingRunner().getIndex() > -1) {
 					logger.info("Waiting now from drawing thread to finish");
 					try {
 						primePicLocation.wait();
@@ -71,8 +67,8 @@ public class UpdatingGUI implements Runnable{
 			}
 		}
 		
-		this.mainForm.getProgressBar().setStringPainted(true);
-		this.mainForm.getProgressBar().setString("Finished");
-		this.mainForm.getGeneratePicButton().setEnabled(true);
+		mainForm.getProgressBar().setStringPainted(true);
+		mainForm.setProgressString("Finished");
+		mainForm.enableGeneration();
 	}
 }

@@ -9,4 +9,5 @@ public interface Configurations {
 	public String getIconFileLocation();
 	public String getDesktopFileLocation();
 	public int getMaxDimension();
+	public String getTitle();
 }

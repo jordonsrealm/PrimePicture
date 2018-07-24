@@ -29,6 +29,11 @@ public class ColorChooserListener implements ActionListener {
 	private Color backgroundColor = null;
 	private MainForm mainForm = null;
 	
+	private String prime1Text = "Choose color for primes ending in '1'";
+	private String prime3Text = "Choose color for primes ending in '3'";
+	private String prime7Text = "Choose color for primes ending in '7'";
+	private String prime9Text = "Choose color for primes ending in '9'";
+	
 	
 	public ColorChooserListener(MainForm form) {
 		this.mainForm = form;
@@ -36,25 +41,24 @@ public class ColorChooserListener implements ActionListener {
 		label3 = form.getChoose3Label();
 		label7 = form.getChoose7Label();
 		label9 = form.getChoose9Label();
+		this.setBackgroundColor( new Color(0,0,0,0) );
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String buttonText = ((JButton) e.getSource() ).getText();
-		
 		String compareStr = buttonText.charAt(buttonText.length() - 1) + "";
-		
 		switch (compareStr){
-		case "1": primes1 = JColorChooser.showDialog(mainForm, "Choose color for primes ending in '1'", Color.WHITE);
+		case "1": primes1 = JColorChooser.showDialog(mainForm, prime1Text, Color.WHITE);
 				  this.label1.setBackground(primes1);
 				  break;
-		case "3": primes3 = JColorChooser.showDialog(mainForm, "Choose color for primes ending in '3'", Color.WHITE);
+		case "3": primes3 = JColorChooser.showDialog(mainForm, prime3Text, Color.WHITE);
 				  this.label3.setBackground(primes3);
 				  break;
-		case "7": primes7 = JColorChooser.showDialog(mainForm, "Choose color for primes ending in '7'", Color.WHITE);
+		case "7": primes7 = JColorChooser.showDialog(mainForm, prime7Text, Color.WHITE);
 				  this.label7.setBackground(primes7);
 			      break;
-		case "9": primes9 = JColorChooser.showDialog(mainForm, "Choose color for primes ending in '9'", Color.WHITE);
+		case "9": primes9 = JColorChooser.showDialog(mainForm, prime9Text, Color.WHITE);
 				  this.label9.setBackground(primes9);
 			      break;
 		default:  mainForm.repaint();

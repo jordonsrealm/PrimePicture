@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import drawingparameters.DrawingRunnableParameter;
+import frames.MainForm;
 
 
 public class DrawingRunner implements Runnable{
@@ -36,6 +37,7 @@ public class DrawingRunner implements Runnable{
 	private File primePicFile;
 	private int offset;
 	private int maximumPixels;
+	private MainForm mainForm;
 
 	
 	
@@ -53,9 +55,13 @@ public class DrawingRunner implements Runnable{
 		this.offset = parameter.getStartingIndex();
 		this.maximumPixels = parameter.getMaxNumberOfPixels();
 		this.backgroundColor = parameter.getPrimePalette().getBackground();
+		this.mainForm = parameter.getMainForm();
 	}
 	
 	public void startDrawingPicture() {
+		UpdatingGUI updateGUI = new UpdatingGUI(mainForm, primePicFile);
+		updateGUI.startUpdating();
+		
 		if(thread == null) {
 			thread = new Thread(this, "DrawingThread");
 			thread.start();
@@ -79,7 +85,7 @@ public class DrawingRunner implements Runnable{
 		nullCheck();
 		
 		for(int x =0; x< 1;x++) {
-			this.offset = x;
+			offset = x;
 			// Set the current index for reading the prime list
 			index = adjustedIndex(offset);
 			processImage();
@@ -106,7 +112,7 @@ public class DrawingRunner implements Runnable{
 			baos.flush();
 			baos.close();
 			
-			for(currentPicBytesCount = (long) 0;currentPicBytesCount < totalPrimePictureBytes;currentPicBytesCount++) {
+			for(currentPicBytesCount = (long) 0;currentPicBytesCount < totalPrimePictureBytes; currentPicBytesCount++) {
 				
 				outputStream.write(byteArray[(int) getCurrentByteCount()]);
 			}
@@ -152,8 +158,7 @@ public class DrawingRunner implements Runnable{
 			totalPixels = (long) x;
 		}
 		
-		// This registers a full progress of drawn since the for loop 
-		// doesn't finish up to the totalPixelCount value
+		// This registers a full progress of drawn since the for loop doesn't finish up to the totalPixelCount value
 		totalPixels++;
 		logger.info("Finished processing buffered image {} by {}...", picWidth, picHeight);
 		
@@ -166,17 +171,18 @@ public class DrawingRunner implements Runnable{
 	}
 
 	private void nullCheck() {
+		Color translucentColor = new Color(0,0,0,Color.TRANSLUCENT);
 		if(primeColor1 == null) {
-			primeColor1 = new Color(0,0,0,Color.TRANSLUCENT);
+			primeColor1 = translucentColor;
 		}
 		if(primeColor3 == null){
-			primeColor3 = new Color(0,0,0,Color.TRANSLUCENT);
+			primeColor3 = translucentColor;
 		} 
 		if(primeColor7 == null) {
-			primeColor7 = new Color(0,0,0,Color.TRANSLUCENT);
+			primeColor7 = translucentColor;
 		} 
 		if(primeColor9 == null){
-			primeColor9 = new Color(0,0,0,Color.TRANSLUCENT);
+			primeColor9 = translucentColor;
 		}
 	}
 	
@@ -207,7 +213,7 @@ public class DrawingRunner implements Runnable{
 	public int getProgress() {
 		double ratio1 = getProgressDrawn();
 		double ratio2 = getProgressWritten();
-		return (int)(( ratio1 + ratio2) * 100);
+		return (int)(( ratio1 + ratio2 ) * 100);
 	}
 	
 	private int adjustedIndex(int startingIndex) {

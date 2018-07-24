@@ -2,12 +2,12 @@ package frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,7 +28,6 @@ import listeners.ColorChooserListener;
 import pictures.ImageHolder;
 import runners.DrawingRunner;
 import runners.ReadingThread;
-import runners.UpdatingGUI;
 
 
 public class MainForm extends JPanel implements ActionListener{
@@ -68,7 +67,6 @@ public class MainForm extends JPanel implements ActionListener{
 		this.configGetter = configGetter;
 		primePicsDefaultLocation = configGetter.getDesktopFileLocation();
 		
-		
 		makeForm();
 		
 		this.setPreferredSize(new Dimension(configGetter.getFormWidth(),configGetter.getFormHeight()));
@@ -76,55 +74,58 @@ public class MainForm extends JPanel implements ActionListener{
 	
 	private MainForm makeForm() {
 		
+		this.setLayout(new BorderLayout());
+		
+		createDirectoryForPictures();
+
+        EmptyBorder border = new EmptyBorder(0,10,0,0);		//top,left,bottom,right
+        setColorChoosers( border );
+		
+		generatePic.addActionListener(this);
+		progressBar.setStringPainted(true);
+		progressBar.setMaximum(100);
+		
+		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
+		bottomPanel.add(generatePic);
+		bottomPanel.add(progressBar);
+		
+		this.add( getMiddlepanel( border ), BorderLayout.CENTER );
+		this.add( bottomPanel, BorderLayout.SOUTH );
+		
+		return this;
+	}
+	
+	private void createDirectoryForPictures() {
 		Path path = Paths.get(primePicsDefaultLocation);
 		
         if (!path.toFile().exists()) {
             try {
-                Files.createDirectories(path);
-                logger.info("Creating directory now");
+                Files.createDirectories( path );
             } catch (IOException e) {
                 logger.error("Unable to create directories");
             }
         }
-        
-        listener = new ColorChooserListener(this);
-        
-        chooser1.addActionListener(listener);
-        chooser3.addActionListener(listener);
-        chooser7.addActionListener(listener);
-        chooser9.addActionListener(listener);
-		
-		choose1Label.setOpaque(true);
-		choose1Label.setBorder(new EmptyBorder(0,10,0,0));//top,left,bottom,right
-		choose3Label.setOpaque(true);
-		choose3Label.setBorder(new EmptyBorder(0,10,0,0));
-		choose7Label.setOpaque(true);
-		choose7Label.setBorder(new EmptyBorder(0,10,0,0));
-		choose9Label.setOpaque(true);
-		choose9Label.setBorder(new EmptyBorder(0,10,0,0));
-		
-		JPanel middlePanel = new JPanel(new GridLayout(3,4));
-		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
-		
+	}
+
+	private Component getMiddlepanel( EmptyBorder border ) {
 		int textFieldLength = configGetter.getTextFieldLength();
 		widthField = new JTextField(textFieldLength);
 		heightField = new JTextField(textFieldLength);
-		
-		widthField.addMouseListener(new MyAdapter(this));
-		widthField.setBorder(new EmptyBorder(0,10,0,0));
-		heightField.addMouseListener(new MyAdapter(this));
-		heightField.setBorder(new EmptyBorder(0,10,0,0));
+		widthField.addMouseListener( new MyAdapter(this) );
+		widthField.setBorder( border );
+		heightField.addMouseListener( new MyAdapter(this) );
+		heightField.setBorder( border );
 		
 		JLabel hLabel = new JLabel("Height");
-		hLabel.setBorder(new EmptyBorder(0,10,0,0));
 		JLabel wLabel = new JLabel("Width");
-		wLabel.setBorder(new EmptyBorder(0,10,0,0));
+		hLabel.setBorder( border );
+		wLabel.setBorder( border );
 		
+		JPanel middlePanel = new JPanel(new GridLayout(3,4));
 		middlePanel.add(hLabel);
 		middlePanel.add(heightField);
 		middlePanel.add(wLabel);
 		middlePanel.add(widthField);
-		
 		middlePanel.add(chooser1);
 		middlePanel.add(choose1Label);
 		middlePanel.add(chooser3);
@@ -134,21 +135,25 @@ public class MainForm extends JPanel implements ActionListener{
 		middlePanel.add(chooser9);
 		middlePanel.add(choose9Label);
 		
-		generatePic.addActionListener(this);
-		progressBar.setMaximum(100);
-		progressBar.setStringPainted(true);
-		
-		bottomPanel.add(generatePic);
-		bottomPanel.add(progressBar);
-		
-		this.setLayout(new BorderLayout());
-		this.add(middlePanel, BorderLayout.CENTER);
-		this.add(bottomPanel, BorderLayout.SOUTH);
-		
-		return this;
+		return middlePanel;
 	}
-	
-	
+
+	private void setColorChoosers(EmptyBorder border) {
+        listener = new ColorChooserListener(this);
+        chooser1.addActionListener(listener);
+        chooser3.addActionListener(listener);
+        chooser7.addActionListener(listener);
+        chooser9.addActionListener(listener);
+
+		choose1Label.setOpaque(true);		
+		choose3Label.setOpaque(true);
+		choose7Label.setOpaque(true);
+		choose9Label.setOpaque(true);
+		choose1Label.setBorder( border );
+		choose3Label.setBorder( border );
+		choose7Label.setBorder( border );
+		choose9Label.setBorder( border );
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -156,36 +161,17 @@ public class MainForm extends JPanel implements ActionListener{
 		String wTextFieldText = widthField.getText();
 		
 		// Checks for non numberic characters
-		if(onlyNumbers(hTextFieldText) && onlyNumbers(wTextFieldText)) {
+		if( onlyNumbers(hTextFieldText) && onlyNumbers(wTextFieldText) ) {
 			int heightSize = Integer.parseInt(hTextFieldText);
 			int widthSize  = Integer.parseInt(wTextFieldText);
 			
-			String message = "Picture size: {} x {} is the width";
+			BufferedImage buffImage = new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR);
+			ImageHolder imageHolder = new ImageHolder( buffImage, listener.getPrimePalette(), primePicsDefaultLocation, 0 , readingThread.getMaxFileSize() );
 			
-			logger.info(message, widthSize, heightSize);
-			
-			File primePictureFile = new File(primePicsDefaultLocation + "PrimePicture_" + widthSize + "_" + heightSize);
-
-			listener.setBackgroundColor(new Color(0,0,0,0));
-			
-			ImageHolder imageHolder = new ImageHolder(new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR),
-					  								  listener.getPrimePalette(),
-													  primePictureFile,
-													  0 /* starting index */,
-													  readingThread.getMaxFileSize()
-													  );
-			
-			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, 
-																			  readingThread.getPrimes(), 
-																			  this);
-			
+			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, readingThread.getPrimes(), this);
 			myDrawingRunner = new DrawingRunner(parameter);
-			UpdatingGUI updateGUI = new UpdatingGUI(this, primePictureFile);
-			
-			updateGUI.startUpdating();
 			myDrawingRunner.startDrawingPicture();
 		}
-		
 	}
 	
 	
@@ -265,5 +251,21 @@ public class MainForm extends JPanel implements ActionListener{
 
 	public ConfigurationGetter getConfigGetter() {
 		return configGetter;
+	}
+	
+	public void setProgressString(String str) {
+		progressBar.setString(str);
+	}
+	
+	public void setProgressValue(Integer value) {
+		progressBar.setValue(value);
+	}
+	
+	public void disableGeneration() {
+		generatePic.setEnabled(false);
+	}
+	
+	public void enableGeneration() {
+		generatePic.setEnabled(true);
 	}
 }

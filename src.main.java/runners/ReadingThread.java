@@ -24,8 +24,7 @@ public class ReadingThread implements Runnable{
 	
 	
 	public void startReadingPrimes() {
-		logger.debug("Starting thread for reading primes");
-		if(thread == null) {
+		if( thread == null ) {
 			thread = new Thread(this, "ReadingThread");
 			thread.start();
 			stopReadingPrimes();
@@ -33,8 +32,7 @@ public class ReadingThread implements Runnable{
 	}
 
 	public void stopReadingPrimes() {
-		logger.debug("Stopping thread for reading primes");
-		if(thread != null) {
+		if( thread != null ) {
 			try {
 				thread.join();
 				thread = null;
@@ -47,11 +45,9 @@ public class ReadingThread implements Runnable{
 
 	@Override
 	public void run() {
-		
 		File testFile = new File("PrimeNumberList.txt");
 		BufferedReader reader = null;
 		
-		logger.debug("Finding prime number list in run method");
 		try {
 			if(testFile.exists()) {
 				reader = new BufferedReader(new FileReader(testFile.getAbsoluteFile().getAbsolutePath()));
@@ -66,7 +62,7 @@ public class ReadingThread implements Runnable{
 				primeArray.add(line);
 			}
 			
-			setMaxFileSize(primeArray.size());
+			maxFileSize = primeArray.size();
 		}
 		catch(IOException e) {
 			logger.error("Error when trying to create BufferedReader", e);
@@ -79,13 +75,6 @@ public class ReadingThread implements Runnable{
 				logger.error("Error when trying to close BufferedReader", e);
 			}
 		}
-
-
-		logger.info("Ended reading of primes with length: {}", primeArray.size());
-	}
-	
-	private void setMaxFileSize(int newValue) {
-		this.maxFileSize = newValue;
 	}
 	
 	public int getMaxFileSize() {
@@ -93,6 +82,6 @@ public class ReadingThread implements Runnable{
 	}
 	
 	public List<String> getPrimes(){
-		return this.primeArray;
+		return primeArray;
 	}
 }

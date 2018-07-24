@@ -15,9 +15,11 @@ public class ConfigurationGetPropertyValues {
 	private static final String DESKTOP_FILE_LOCATION = "DESKTOP_FILE_LOCATION";
 	private static final String MAX_DIMENSION = "MAX_DIMENSION";
 	private static final String ICON_FILE_LOCATION = "ICON_FILE_LOCATION";
+	private static final String TITLE = "TITLE";
+	
 	
 	private ConfigurationGetPropertyValues() {
-		/// 
+		//
 	}
  
 	public static String[] getProperties(){
@@ -29,6 +31,7 @@ public class ConfigurationGetPropertyValues {
 		properties.add(DESKTOP_FILE_LOCATION);
 		properties.add(MAX_DIMENSION);
 		properties.add(ICON_FILE_LOCATION);
+		properties.add(TITLE);
 		
 		return properties.toArray(new String[0]);
 	}

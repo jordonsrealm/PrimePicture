@@ -24,6 +24,7 @@ public class ConfigurationGetter implements Configurations{
 	private static final String DESKTOP_FILE_LOCATION = "DESKTOP_FILE_LOCATION";
 	private static final String MAX_DIMENSION = "MAX_DIMENSION";
 	private static final String ICON_FILE_LOCATION = "ICON_FILE_LOCATION";
+	private static final String TITLE = "TITLE";
 	
 	
 	public ConfigurationGetter() throws IOException {
@@ -84,7 +85,11 @@ public class ConfigurationGetter implements Configurations{
 	
 	@Override
 	public int getMaxDimension() {
-		logger.debug("MaxDimension be", properties.get(MAX_DIMENSION));
 		return Integer.parseInt(properties.get(MAX_DIMENSION));
 	}
+	@Override
+	public String getTitle() {
+		return properties.get(TITLE);
+	}
+	
 }
