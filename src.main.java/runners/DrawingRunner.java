@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import components.MainForm;
 import drawingparameters.DrawingRunnableParameter;
-import frames.MainForm;
 
 
 public class DrawingRunner implements Runnable{

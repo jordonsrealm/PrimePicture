@@ -1,8 +1,9 @@
-package adapters;
+package listeners;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import frames.MainForm;
+
+import components.MainForm;
 
 
 public class MyAdapter extends MouseAdapter {

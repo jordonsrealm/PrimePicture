@@ -12,9 +12,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import components.MainForm;
 import components.MyMenuBar;
 import configuration.ConfigurationGetter;
-import frames.MainForm;
 import runners.ReadingThread;
 
 

@@ -10,8 +10,6 @@ import javax.swing.JMenuItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import frames.MainForm;
-
 
 public class MyMenuBar extends JMenuBar {
 	

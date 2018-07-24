@@ -1,4 +1,4 @@
-package palettes;
+package pictures;
 
 import java.awt.Color;
 

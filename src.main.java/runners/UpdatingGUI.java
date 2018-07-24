@@ -4,7 +4,8 @@ import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import frames.MainForm;
+
+import components.MainForm;
 
 
 public class UpdatingGUI implements Runnable{

@@ -3,9 +3,10 @@ package drawingparameters;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
-import frames.MainForm;
-import palettes.PrimePalette;
+
+import components.MainForm;
 import pictures.ImageHolder;
+import pictures.PrimePalette;
 
 
 public class DrawingRunnableParameter {

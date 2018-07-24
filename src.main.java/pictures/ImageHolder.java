@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import palettes.PrimePalette;
-
 
 public class ImageHolder {
 	

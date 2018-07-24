@@ -8,8 +8,9 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import frames.MainForm;
-import palettes.PrimePalette;
+
+import components.MainForm;
+import pictures.PrimePalette;
 
 
 public class ColorChooserListener implements ActionListener {

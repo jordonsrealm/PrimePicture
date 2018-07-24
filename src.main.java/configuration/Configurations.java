@@ -1,4 +1,4 @@
-package primepicture.impl;
+package configuration;
 
 
 public interface Configurations {

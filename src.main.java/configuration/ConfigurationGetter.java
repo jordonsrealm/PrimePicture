@@ -10,8 +10,6 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import primepicture.impl.Configurations;
-
 
 public class ConfigurationGetter implements Configurations{
 

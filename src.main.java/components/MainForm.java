@@ -1,4 +1,4 @@
-package frames;
+package components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,10 +21,11 @@ import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import adapters.MyAdapter;
+
 import configuration.ConfigurationGetter;
 import drawingparameters.DrawingRunnableParameter;
 import listeners.ColorChooserListener;
+import listeners.MyAdapter;
 import pictures.ImageHolder;
 import runners.DrawingRunner;
 import runners.ReadingThread;
@@ -109,11 +110,12 @@ public class MainForm extends JPanel implements ActionListener{
 
 	private Component getMiddlepanel( EmptyBorder border ) {
 		int textFieldLength = configGetter.getTextFieldLength();
+		MyAdapter myAdapter = new MyAdapter(this);
 		widthField = new JTextField(textFieldLength);
 		heightField = new JTextField(textFieldLength);
-		widthField.addMouseListener( new MyAdapter(this) );
+		widthField.addMouseListener( myAdapter );
 		widthField.setBorder( border );
-		heightField.addMouseListener( new MyAdapter(this) );
+		heightField.addMouseListener( myAdapter );
 		heightField.setBorder( border );
 		
 		JLabel hLabel = new JLabel("Height");
