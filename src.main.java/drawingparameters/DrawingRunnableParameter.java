@@ -23,8 +23,8 @@ public class DrawingRunnableParameter {
 	
 	public DrawingRunnableParameter(ImageHolder imgHolder, List<String> primesList, MainForm form) {
 		this.img = imgHolder.getBufferedImage();
-		this.height = imgHolder.getBufferedImage().getWidth();
-		this.width = imgHolder.getBufferedImage().getHeight();
+		this.height = imgHolder.getBufferedImage().getHeight();
+		this.width = imgHolder.getBufferedImage().getWidth();
 		this.primePalette = imgHolder.getPrimePalette();
 		this.primePictureFileLocation = imgHolder.getPrimePictureFile();
 		this.startingIndex = imgHolder.getStart();

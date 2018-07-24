@@ -117,8 +117,8 @@ public class DrawingRunner implements Runnable{
 				
 				outputStream.write(byteArray[(int) getCurrentByteCount()]);
 			}
-			outputStream.flush();
 			
+			outputStream.flush();
 		} catch (IOException e11) {
 			logger.error("Error when writing to outputstream", e11);
 		}
@@ -132,13 +132,13 @@ public class DrawingRunner implements Runnable{
 		logger.info("DrawingRunner thread is now drawing");
 		
 		for(int x = 0;x < totalPixelCount; x++) {
-			int xpt= (x%(picWidth));
+			int xpt= (x%(picWidth - 1));
 			int ypt= (x/(picWidth));
-			
+
 			String totalLengthStr = (x + offset)+ "";
 			String lastNumber = totalLengthStr.charAt(totalLengthStr.length() - 1) + "";
 			
-			if( index < maximumPixels && this.primeList.get(index).equals(totalLengthStr) ) {
+			if( index < maximumPixels && primeList.get(index).equals(totalLengthStr) ) {
 				switch (lastNumber) {
 				case "1": bufferedImage.setRGB(xpt, ypt, primeColor1.getRGB());
 						  break;
@@ -152,8 +152,10 @@ public class DrawingRunner implements Runnable{
 				}
 				
 				index++;
+				logger.info("Inside of index");
 			} else {
-				bufferedImage.setRGB(xpt, ypt, this.backgroundColor.getRGB());
+				logger.info("Outside of index");
+				bufferedImage.setRGB(xpt, ypt, backgroundColor.getRGB());
 			}
 			
 			totalPixels = (long) x;
@@ -161,7 +163,6 @@ public class DrawingRunner implements Runnable{
 		
 		// This registers a full progress of drawn since the for loop doesn't finish up to the totalPixelCount value
 		totalPixels++;
-		logger.info("Finished processing buffered image {} by {}...", picWidth, picHeight);
 		
 		// Check if the dimension the user inputted are larger than the file size of primes
 		if(index > maximumPixels) {
@@ -220,7 +221,7 @@ public class DrawingRunner implements Runnable{
 	private int adjustedIndex(int startingIndex) {
 		if(startingIndex < 3) return 0;
 		int start = 0;
-		while(Integer.parseInt(this.primeList.get(start)) <= startingIndex ) {
+		while(Integer.parseInt(primeList.get(start)) <= startingIndex ) {
 			start++;
 		}
 		return start;

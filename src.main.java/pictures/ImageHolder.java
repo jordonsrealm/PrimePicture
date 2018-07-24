@@ -17,9 +17,9 @@ public class ImageHolder {
 	
 	public ImageHolder(BufferedImage image, PrimePalette palette, String primePictureFile, int startIndex, int maximumNumberOfPixels) {
 		this.bufferedImage = image;
-		this.dimensions = new Dimension(image.getWidth(), image.getWidth());
+		this.dimensions = new Dimension(image.getWidth(), image.getHeight());
 		this.primePalette = palette;
-		this.primePictureFile = new File(primePictureFile + "PrimePicture_" + image.getWidth() + "_" + image.getWidth());
+		this.primePictureFile = new File(primePictureFile + "PrimePicture_" + image.getWidth() + "_" + image.getHeight());
 		this.start = startIndex;
 		this.maxNumberPixel = maximumNumberOfPixels;
 	}

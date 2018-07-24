@@ -124,10 +124,10 @@ public class MainForm extends JPanel implements ActionListener{
 		wLabel.setBorder( border );
 		
 		JPanel middlePanel = new JPanel(new GridLayout(3,4));
-		middlePanel.add(hLabel);
-		middlePanel.add(heightField);
 		middlePanel.add(wLabel);
 		middlePanel.add(widthField);
+		middlePanel.add(hLabel);
+		middlePanel.add(heightField);
 		middlePanel.add(chooser1);
 		middlePanel.add(choose1Label);
 		middlePanel.add(chooser3);
