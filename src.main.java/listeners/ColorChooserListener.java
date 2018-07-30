@@ -8,8 +8,10 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.omg.CORBA.CharHolder;
 
 import components.MainForm;
+import drawingparameters.ColorHolder;
 import pictures.PrimePalette;
 
 
@@ -67,24 +69,9 @@ public class ColorChooserListener implements ActionListener {
 	}
 	
 	public PrimePalette getPrimePalette() {
-		return new PrimePalette(primes1, primes3, primes7, primes9, this.backgroundColor);
-	}
-	
-	public Color getPrimes1Color() {
-		return primes1;
+		return new PrimePalette( new ColorHolder( primes1, primes3, primes7, primes9), this.backgroundColor);
 	}
 
-	public Color getPrimes3Color() {
-		return primes3;
-	}
-
-	public Color getPrimes7Color() {
-		return primes7;
-	}
-
-	public Color getPrimes9Color() {
-		return primes9;
-	}
 	
 	public Color getBackgroundColor() {
 		return backgroundColor;

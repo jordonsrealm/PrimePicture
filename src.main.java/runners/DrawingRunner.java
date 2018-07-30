@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import components.MainForm;
+import drawingparameters.ColorHolder;
 import drawingparameters.DrawingRunnableParameter;
 
 
@@ -22,10 +23,7 @@ public class DrawingRunner implements Runnable{
 	
 	private BufferedImage bufferedImage;
 	private ArrayList<String> primeList;
-	private Color primeColor1;
-	private Color primeColor3;
-	private Color primeColor7;
-	private Color primeColor9;
+	private ColorHolder colorHolder;
 	private Color backgroundColor;
 	private int picWidth  = 0;
 	private int picHeight = 0;
@@ -41,22 +39,18 @@ public class DrawingRunner implements Runnable{
 	private MainForm mainForm;
 
 	
-	
 	public DrawingRunner(DrawingRunnableParameter parameter) {
-		this.bufferedImage = parameter.getImg();
-		this.primeList = (ArrayList<String>) parameter.getPrimes();
-		this.primeColor1 = parameter.getPrimePalette().getPrime1();
-		this.primeColor3 = parameter.getPrimePalette().getPrime3();
-		this.primeColor7 = parameter.getPrimePalette().getPrime7();
-		this.primeColor9 = parameter.getPrimePalette().getPrime9();
-		this.picWidth = parameter.getWidth();
-		this.picHeight = parameter.getHeight();
-		this.totalPixelCount = picWidth * (long)picHeight;
-		this.primePicFile = parameter.getPrimePictureFileLocation();
-		this.offset = parameter.getStartingIndex();
-		this.maximumPixels = parameter.getMaxNumberOfPixels();
-		this.backgroundColor = parameter.getPrimePalette().getBackground();
-		this.mainForm = parameter.getMainForm();
+		this.bufferedImage 		= parameter.getImg();
+		this.primeList 			= (ArrayList<String>) parameter.getPrimes();
+		this.colorHolder 		= parameter.getPrimePalette().getColorHolder();
+		this.picWidth 			= parameter.getWidth();
+		this.picHeight 			= parameter.getHeight();
+		this.totalPixelCount 	= picWidth * (long) picHeight;
+		this.primePicFile 		= parameter.getPrimePictureFileLocation();
+		this.offset 			= parameter.getStartingIndex();
+		this.maximumPixels 		= parameter.getMaxNumberOfPixels();
+		this.backgroundColor 	= parameter.getPrimePalette().getBackground();
+		this.mainForm 			= parameter.getMainForm();
 	}
 	
 	public void startDrawingPicture() {
@@ -106,7 +100,7 @@ public class DrawingRunner implements Runnable{
 		byte[] byteArray = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
-		try(OutputStream outputStream = new FileOutputStream(primePicFile.toPath().toString() + "_" + offset + ".png")) {
+		try(OutputStream outputStream = new FileOutputStream(primePicFile.toPath().toString() + ".png")) {
 			ImageIO.write(bufferedImage, "png", baos);
 			byteArray = baos.toByteArray();
 			totalPrimePictureBytes = Long.parseLong(byteArray.length +"");
@@ -114,7 +108,6 @@ public class DrawingRunner implements Runnable{
 			baos.close();
 			
 			for(currentPicBytesCount = (long) 0;currentPicBytesCount < totalPrimePictureBytes; currentPicBytesCount++) {
-				
 				outputStream.write(byteArray[(int) getCurrentByteCount()]);
 			}
 			
@@ -140,13 +133,13 @@ public class DrawingRunner implements Runnable{
 			
 			if( index < maximumPixels && primeList.get(index).equals(totalLengthStr) ) {
 				switch (lastNumber) {
-				case "1": bufferedImage.setRGB(xpt, ypt, primeColor1.getRGB());
+				case "1": bufferedImage.setRGB(xpt, ypt, colorHolder.getPrime1RGB());
 						  break;
-				case "3": bufferedImage.setRGB(xpt, ypt, primeColor3.getRGB());
+				case "3": bufferedImage.setRGB(xpt, ypt, colorHolder.getPrime3RGB());
 						  break;
-			    case "7": bufferedImage.setRGB(xpt, ypt, primeColor7.getRGB());
+			    case "7": bufferedImage.setRGB(xpt, ypt, colorHolder.getPrime7RGB());
 			    		  break;
-				case "9": bufferedImage.setRGB(xpt, ypt, primeColor9.getRGB());
+				case "9": bufferedImage.setRGB(xpt, ypt, colorHolder.getPrime9RGB());
 						  break;
 				default: break;
 				}
@@ -174,17 +167,17 @@ public class DrawingRunner implements Runnable{
 
 	private void nullCheck() {
 		Color translucentColor = new Color(0,0,0,Color.TRANSLUCENT);
-		if(primeColor1 == null) {
-			primeColor1 = translucentColor;
+		if(colorHolder.getPrimeColor1() == null) {
+			colorHolder.setPrimeColor1(translucentColor);
 		}
-		if(primeColor3 == null){
-			primeColor3 = translucentColor;
+		if(colorHolder.getPrimeColor3() == null){
+			colorHolder.setPrimeColor3(translucentColor);
 		} 
-		if(primeColor7 == null) {
-			primeColor7 = translucentColor;
+		if(colorHolder.getPrimeColor7() == null) {
+			colorHolder.setPrimeColor7(translucentColor);
 		} 
-		if(primeColor9 == null){
-			primeColor9 = translucentColor;
+		if(colorHolder.getPrimeColor9() == null){
+			colorHolder.setPrimeColor9(translucentColor);
 		}
 	}
 	
