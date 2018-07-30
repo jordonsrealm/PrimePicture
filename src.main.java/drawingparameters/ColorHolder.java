@@ -68,6 +68,27 @@ public class ColorHolder {
 		return primeColor1.getRGB();
 	}
 	
+	public int getPrimeNumberRGB(String lastNumber) {
+		int returnColor = 0;
+		switch (lastNumber) {
+			case "1": 
+				returnColor = getPrime1RGB();
+				break;
+			case "3": 
+				returnColor = getPrime3RGB();
+				break;
+			case "7": 
+				returnColor = getPrime7RGB();
+				break;
+			case "9": 
+				returnColor = getPrime9RGB();
+				break;
+			default: break;
+		}
+		
+		return returnColor;
+	}
+	
 	public void setPrime1RGB(int integerColor) {
 		this.primeColor1 = getConvertedColor(integerColor);
 	}
@@ -90,5 +111,29 @@ public class ColorHolder {
 		int b = (integerColor >> 16) & 0xFF;
 		int a = (integerColor >> 24) & 0xFF;
 		return new Color( r, g, b, a);
+	}
+	
+	public void setPrimeColor1ToClearIfNull() {
+		if(getPrimeColor1() == null) {
+			setPrimeColor1(new Color(0,0,0,Color.TRANSLUCENT));
+		}
+	}
+	
+	public void setPrimeColor3ToClearIfNull() {
+		if(getPrimeColor3() == null) {
+			setPrimeColor3(new Color(0,0,0,Color.TRANSLUCENT));
+		}
+	}
+	
+	public void setPrimeColor7ToClearIfNull() {
+		if(getPrimeColor7() == null) {
+			setPrimeColor7(new Color(0,0,0,Color.TRANSLUCENT));
+		}
+	}
+	
+	public void setPrimeColor9ToClearIfNull() {
+		if(getPrimeColor9() == null) {
+			setPrimeColor9(new Color(0,0,0,Color.TRANSLUCENT));
+		}
 	}
 }

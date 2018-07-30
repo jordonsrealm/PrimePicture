@@ -8,7 +8,6 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.omg.CORBA.CharHolder;
 
 import components.MainForm;
 import drawingparameters.ColorHolder;
