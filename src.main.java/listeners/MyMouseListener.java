@@ -6,12 +6,12 @@ import java.awt.event.MouseEvent;
 import components.MainForm;
 
 
-public class MyAdapter extends MouseAdapter {
+public class MyMouseListener extends MouseAdapter {
 
 	MainForm mainForm;
 	
 	
-	public MyAdapter(MainForm form) {
+	public MyMouseListener(MainForm form) {
 		this.mainForm = form;
 	}
 	

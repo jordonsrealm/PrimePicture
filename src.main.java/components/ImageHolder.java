@@ -1,4 +1,4 @@
-package pictures;
+package components;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -15,13 +15,12 @@ public class ImageHolder {
 	private int maxNumberPixel;
 	
 	
-	public ImageHolder(BufferedImage image, PrimePalette palette, String primePictureFile, int startIndex, int maximumNumberOfPixels) {
+	public ImageHolder(BufferedImage image, PrimePalette palette, String primePictureFile, int startIndex) {
 		this.bufferedImage = image;
 		this.dimensions = new Dimension(image.getWidth(), image.getHeight());
 		this.primePalette = palette;
 		this.primePictureFile = new File(primePictureFile + "PrimePicture_" + image.getWidth() + "_" + image.getHeight());
 		this.start = startIndex;
-		this.maxNumberPixel = maximumNumberOfPixels;
 	}
 	
 	public BufferedImage getBufferedImage() {

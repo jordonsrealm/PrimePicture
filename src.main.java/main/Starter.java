@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import components.MainForm;
 import components.MyMenuBar;
 import configuration.ConfigurationGetter;
-import runners.ReadingThread;
+import runners.PrimeListThread;
 
 
 public class Starter {
@@ -23,20 +23,20 @@ public class Starter {
 	private static final Logger logger = LogManager.getLogger(Starter.class.getName());
 	
 	private JFrame frame;
-	private ReadingThread myReader = new ReadingThread();
+	private PrimeListThread primeListReader = new PrimeListThread();
 	private MainForm form;
 	private static Starter starter;
-	private ConfigurationGetter configGetter;
+	private ConfigurationGetter configGetter = new ConfigurationGetter();
 	
 	
 	// Starter Constructor
 	public Starter() throws IOException {
-		configGetter = new ConfigurationGetter();
 		frame = new JFrame( configGetter.getTitle() );
 		addIconImage( configGetter.getIconFileLocation() );
-		form = new MainForm(myReader, configGetter);
+		form = new MainForm( primeListReader, configGetter);
+		
 		frame.setJMenuBar( new MyMenuBar(this.form) );
-		addFormatting( frame );
+		addFrameFormatting( frame );
 	}
 
 	// Main Method
@@ -71,15 +71,14 @@ public class Starter {
 		starter.getForm().disableGeneration();
 		starter.getForm().setProgressString("Loading Primes...");
 		
-		myReader.startReadingPrimes();
+		primeListReader.startReadingPrimes();
 		
 		starter.getForm().setProgressString("Loaded Primes!");
-		starter.getForm().setReadingThread(myReader);
 		starter.getForm().enableGeneration();
 	}
 	
 	// Adds formatting to JFrame and set Image Icon
-	private void addFormatting(JFrame frame) {
+	private void addFrameFormatting(JFrame frame) {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,12 +88,12 @@ public class Starter {
 	}
 	
 	// Gets the Reader object that has the thread used for processing the text file containing the list of prime numbers
-	public ReadingThread getMyReader() {
-		return myReader;
+	public PrimeListThread getMyReader() {
+		return primeListReader;
 	}
 
-	public void setMyReader(ReadingThread myReader) {
-		this.myReader = myReader;
+	public void setMyReader(PrimeListThread myReader) {
+		this.primeListReader = myReader;
 	}
 
 	public MainForm getForm() {

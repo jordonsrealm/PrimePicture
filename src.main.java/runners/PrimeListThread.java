@@ -13,14 +13,13 @@ import org.apache.logging.log4j.Logger;
 import main.Starter;
 
 
-public class ReadingThread implements Runnable{
+public class PrimeListThread implements Runnable{
 	
-	private static final Logger logger = LogManager.getLogger(ReadingThread.class.getName());
+	private static final Logger logger = LogManager.getLogger(PrimeListThread.class.getName());
 	
 	private static final String ONE_MILLION_PRIMES = "OneMillionPrimes.txt";
 	private ArrayList<String> primeArray = new ArrayList<>();
 	private Thread thread;
-	private int maxFileSize = 0;
 	
 	
 	public void startReadingPrimes() {
@@ -61,8 +60,6 @@ public class ReadingThread implements Runnable{
 			while((line = reader.readLine()) != null ) {
 				primeArray.add(line);
 			}
-			
-			maxFileSize = primeArray.size();
 		}
 		catch(IOException e) {
 			logger.error("Error when trying to create BufferedReader", e);
@@ -75,10 +72,6 @@ public class ReadingThread implements Runnable{
 				logger.error("Error when trying to close BufferedReader", e);
 			}
 		}
-	}
-	
-	public int getMaxFileSize() {
-		return maxFileSize;
 	}
 	
 	public List<String> getPrimes(){

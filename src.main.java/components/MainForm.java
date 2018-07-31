@@ -23,12 +23,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import configuration.ConfigurationGetter;
-import drawingparameters.DrawingRunnableParameter;
 import listeners.ColorChooserListener;
-import listeners.MyAdapter;
-import pictures.ImageHolder;
+import listeners.MyMouseListener;
 import runners.DrawingRunner;
-import runners.ReadingThread;
+import runners.PrimeListThread;
 
 
 public class MainForm extends JPanel implements ActionListener{
@@ -41,7 +39,7 @@ public class MainForm extends JPanel implements ActionListener{
 
 	private JTextField heightField;
 	private JTextField widthField;
-	transient MyAdapter adapter  = null;
+	transient MyMouseListener adapter  = null;
 	transient ColorChooserListener listener = null;
 	
 	private JButton chooser1 = new JButton("Ends with 1");
@@ -58,13 +56,13 @@ public class MainForm extends JPanel implements ActionListener{
 	private JProgressBar progressBar = new JProgressBar();
 	
 	private transient DrawingRunner myDrawingRunner;
-	private transient ReadingThread readingThread = null;
+	private transient PrimeListThread primeListThread = null;
 	private final transient  ConfigurationGetter configGetter;
 	
 	
-	public MainForm(ReadingThread rThread, ConfigurationGetter configGetter) {
+	public MainForm(PrimeListThread rThread, ConfigurationGetter configGetter) {
 		this.listener = new ColorChooserListener(this);
-		this.readingThread = rThread;
+		this.primeListThread = rThread;
 		this.configGetter = configGetter;
 		primePicsDefaultLocation = configGetter.getDesktopFileLocation();
 		
@@ -110,7 +108,7 @@ public class MainForm extends JPanel implements ActionListener{
 
 	private Component getMiddlepanel( EmptyBorder border ) {
 		int textFieldLength = configGetter.getTextFieldLength();
-		MyAdapter myAdapter = new MyAdapter(this);
+		MyMouseListener myAdapter = new MyMouseListener(this);
 		widthField = new JTextField(textFieldLength);
 		heightField = new JTextField(textFieldLength);
 		widthField.addMouseListener( myAdapter );
@@ -168,9 +166,9 @@ public class MainForm extends JPanel implements ActionListener{
 			int widthSize  = Integer.parseInt(wTextFieldText);
 			
 			BufferedImage buffImage = new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR);
-			ImageHolder imageHolder = new ImageHolder( buffImage, listener.getPrimePalette(), primePicsDefaultLocation, 0 , readingThread.getMaxFileSize() );
+			ImageHolder imageHolder = new ImageHolder( buffImage, listener.getPrimePalette(), primePicsDefaultLocation, 0);
 			
-			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, readingThread.getPrimes(), this);
+			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, primeListThread.getPrimes(), this);
 			myDrawingRunner = new DrawingRunner(parameter);
 			myDrawingRunner.startDrawingPicture();
 		}
@@ -235,12 +233,12 @@ public class MainForm extends JPanel implements ActionListener{
 		return generatePic;
 	}
 	
-	public void setReadingThread(ReadingThread readThread) {
-		this.readingThread = readThread;
+	public void setReadingThread(PrimeListThread readThread) {
+		this.primeListThread = readThread;
 	}
 	
-	public ReadingThread getReadingThread() {
-		return this.readingThread;
+	public PrimeListThread getReadingThread() {
+		return this.primeListThread;
 	}
 
 	public Color getBackGroundColor() {

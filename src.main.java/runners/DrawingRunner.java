@@ -12,9 +12,9 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import components.ColorHolder;
+import components.DrawingRunnableParameter;
 import components.MainForm;
-import drawingparameters.ColorHolder;
-import drawingparameters.DrawingRunnableParameter;
 
 
 public class DrawingRunner implements Runnable{
@@ -32,7 +32,6 @@ public class DrawingRunner implements Runnable{
 	private int maximumPixels;
 	private Color backgroundColor;
 	private MainForm mainForm;
-	
 	private Long totalPixels = (long) 0;
 	private Long totalPrimePictureBytes = (long) 0;
 	private Long currentPicBytesCount = (long) 0;
@@ -48,7 +47,6 @@ public class DrawingRunner implements Runnable{
 		this.picHeight 			= parameter.getHeight();
 		this.primePicFile 		= parameter.getPrimePictureFileLocation();
 		this.offset 			= parameter.getStartingIndex();
-		this.maximumPixels 		= parameter.getMaxNumberOfPixels();
 		this.backgroundColor 	= parameter.getPrimePalette().getBackground();
 		this.mainForm 			= parameter.getMainForm();
 		

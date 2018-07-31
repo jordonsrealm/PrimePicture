@@ -1,12 +1,8 @@
-package drawingparameters;
+package components;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
-
-import components.MainForm;
-import pictures.ImageHolder;
-import pictures.PrimePalette;
 
 
 public class DrawingRunnableParameter {
@@ -18,7 +14,6 @@ public class DrawingRunnableParameter {
 	private PrimePalette primePalette;
 	private File primePictureFileLocation;
 	private int startingIndex;
-	private int maxNumberOfPixels;
 	
 	
 	public DrawingRunnableParameter(ImageHolder imgHolder, List<String> primesList, MainForm form) {
@@ -28,7 +23,6 @@ public class DrawingRunnableParameter {
 		this.primePalette = imgHolder.getPrimePalette();
 		this.primePictureFileLocation = imgHolder.getPrimePictureFile();
 		this.startingIndex = imgHolder.getStart();
-		this.maxNumberOfPixels = imgHolder.getMaxNumberPixel();
 		this.primes = primesList;
 		this.mainForm = form;
 	}
@@ -99,14 +93,6 @@ public class DrawingRunnableParameter {
 
 	public void setStartingIndex(int startingIndex) {
 		this.startingIndex = startingIndex;
-	}
-
-	public int getMaxNumberOfPixels() {
-		return maxNumberOfPixels;
-	}
-
-	public void setMaxNumberOfPixels(int maxNumberOfPixels) {
-		this.maxNumberOfPixels = maxNumberOfPixels;
 	}
 	
 }

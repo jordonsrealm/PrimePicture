@@ -1,8 +1,6 @@
-package pictures;
+package components;
 
 import java.awt.Color;
-
-import drawingparameters.ColorHolder;
 
 
 public class PrimePalette {

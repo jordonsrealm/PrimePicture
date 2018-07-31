@@ -1,4 +1,4 @@
-package drawingparameters;
+package components;
 
 import java.awt.Color;
 
