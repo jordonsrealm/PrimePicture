@@ -126,12 +126,11 @@ public class DrawingRunner implements Runnable{
 
 		for(int x = 0;x < totalPixelCount; x++) {
 			
-			int xpt= (x%(picWidth - 1));
+			int xpt= (x%(picWidth));
 			int ypt= (x/(picWidth));
 
 			String totalLengthStr = (x + offset)+ "";
 			String lastNumber = totalLengthStr.charAt(totalLengthStr.length() - 1) + "";
-
 			if( primeList.get(index).equals(totalLengthStr) ) {
 				bufferedImage.setRGB( xpt, ypt, colorHolder.getPrimeNumberRGB(lastNumber));
 
@@ -150,7 +149,6 @@ public class DrawingRunner implements Runnable{
 		if(index > maximumPixels) {
 			logger.debug("Dimension provided exceeds the file size of primes, adding a custom file to the project that exceeds the current dimension will work as well.");
 		}
-
 	}
 
 	private void nullCheck() {
@@ -173,6 +171,7 @@ public class DrawingRunner implements Runnable{
 	}
 
 	public double getProgressWritten(){
+		
 		if(currentPicBytesCount == null || getTotalByteCount() == 0) {
 			return 0;
 		}

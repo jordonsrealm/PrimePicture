@@ -46,16 +46,13 @@ public class PrimeListThread implements Runnable{
 	public void run() {
 		File testFile = new File("PrimeNumberList.txt");
 		BufferedReader reader = null;
+		ClassLoader loader = Starter.class.getClassLoader();
+		URL url = loader.getResource("main/Starter.class");
+		System.out.println("getPath: " + url.getPath());
 		
 		try {
-			if(testFile.exists()) {
-				reader = new BufferedReader(new FileReader(testFile.getAbsoluteFile().getAbsolutePath()));
-			} else {
-				ClassLoader loader = Starter.class.getClassLoader();
-				URL url = loader.getResource(ONE_MILLION_PRIMES);
-				reader = new BufferedReader(new InputStreamReader(url.openStream()));
-			}
-			
+			reader = new BufferedReader(new FileReader(testFile));
+
 			String line = "";
 			while((line = reader.readLine()) != null ) {
 				primeArray.add(line);

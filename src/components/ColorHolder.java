@@ -57,15 +57,15 @@ public class ColorHolder {
 	}
 	
 	public int getPrime3RGB() {
-		return primeColor1.getRGB();
+		return primeColor3.getRGB();
 	}
 	
 	public int getPrime7RGB() {
-		return primeColor1.getRGB();
+		return primeColor7.getRGB();
 	}
 	
 	public int getPrime9RGB() {
-		return primeColor1.getRGB();
+		return primeColor9.getRGB();
 	}
 	
 	public int getPrimeNumberRGB(String lastNumber) {

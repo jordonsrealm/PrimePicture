@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src.main.java"/>
-	<classpathentry kind="src" path="src.main.resources"/>
-	<classpathentry kind="src" path="src.main.test"/>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="F:/Zip Files/Logging JAR files/apache-log4j-2.10.0-bin/log4j-api-2.10.0.jar" sourcepath="C:/Users/JORDON~1/AppData/Local/Temp/.org.sf.feeling.decompiler1531032577607/source/log4j-api-2.10.0-sources.jar"/>
 	<classpathentry kind="lib" path="F:/Zip Files/Logging JAR files/apache-log4j-2.10.0-bin/log4j-core-2.10.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
