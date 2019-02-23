@@ -32,10 +32,10 @@ public class Starter {
 	// Starter Constructor
 	public Starter() throws IOException {
 		frame = new JFrame( configGetter.getTitle() );
-		addIconImage( configGetter.getIconFileLocation() );
+		frame.setJMenuBar( new MyMenuBar(this.form) );
 		form = new MainForm( primeListReader, configGetter);
 		
-		frame.setJMenuBar( new MyMenuBar(this.form) );
+		addIconImage( configGetter.getIconFileLocation() );
 		addFrameFormatting( frame );
 	}
 
@@ -85,15 +85,6 @@ public class Starter {
 		frame.setResizable(false);
 		frame.add(form);
 		frame.pack();
-	}
-	
-	// Gets the Reader object that has the thread used for processing the text file containing the list of prime numbers
-	public PrimeListThread getMyReader() {
-		return primeListReader;
-	}
-
-	public void setMyReader(PrimeListThread myReader) {
-		this.primeListReader = myReader;
 	}
 
 	public MainForm getForm() {

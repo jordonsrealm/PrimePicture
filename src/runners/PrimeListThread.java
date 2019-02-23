@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +51,12 @@ public class PrimeListThread implements Runnable{
 		
 		try {
 			reader = new BufferedReader(new FileReader(testFile));
-
+			
 			String line = "";
 			while((line = reader.readLine()) != null ) {
 				primeArray.add(line);
 			}
-		}
-		catch(IOException e) {
+		} catch(IOException e) {
 			logger.error("Error when trying to create BufferedReader", e);
 		}
 		
