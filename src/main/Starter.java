@@ -22,24 +22,24 @@ public class Starter {
 	
 	private static final Logger logger = LogManager.getLogger(Starter.class.getName());
 	
-	private JFrame frame;
+	private JFrame starterFrame;
 	private PrimeListThread primeListReader = new PrimeListThread();
-	private MainForm form;
+	private MainForm starterForm;
 	private static Starter starter;
 	private ConfigurationGetter configGetter = new ConfigurationGetter();
 	
 	
 	// Starter Constructor
 	public Starter() throws IOException {
-		frame = new JFrame( configGetter.getTitle() );
-		frame.setJMenuBar( new MyMenuBar(this.form) );
+		starterFrame = new JFrame( configGetter.getTitle() );
+		starterFrame.setJMenuBar( new MyMenuBar(starterForm) );
 		
 		// Main guts of the operation occurs here
-		form = new MainForm( primeListReader, configGetter);
+		starterForm = new MainForm( primeListReader, configGetter);
 		
 		// Adds icon to the JFrame
 		addIconImage( configGetter.getIconFileLocation() );
-		addFrameFormatting( frame );
+		addFrameFormatting( starterFrame );
 	}
 
 	// Main Method
@@ -63,7 +63,7 @@ public class Starter {
 		try {
 			URL resource = getClass().getResource(iconImageLocation);
 			BufferedImage image = ImageIO.read(resource);
-			frame.setIconImage(image);
+			starterFrame.setIconImage(image);
 		} catch (IOException e) {
 			logger.error("Error when reading image when setting the frame's icon", e);
 		}
@@ -71,13 +71,13 @@ public class Starter {
 	
 	// Loads the prime numbers
 	private void loadPrimes() {
-		starter.getForm().disableGeneration();;
-		starter.getForm().setProgressString("Loading Primes...");
+		starter.getMainForm().disableGeneration();
+		starter.getMainForm().setProgressString("Loading Primes...");
 		
 		primeListReader.startReadingPrimes();
 		
-		starter.getForm().setProgressString("Loaded Primes!");
-		starter.getForm().enableGeneration();
+		starter.getMainForm().setProgressString("Loaded Primes!");
+		starter.getMainForm().enableGeneration();
 	}
 	
 	// Adds formatting to JFrame and set Image Icon
@@ -86,15 +86,11 @@ public class Starter {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.add(form);
+		frame.add(starterForm);
 		frame.pack();
 	}
 
-	public MainForm getForm() {
-		return form;
-	}
-
-	public void setForm(MainForm form) {
-		this.form = form;
+	public MainForm getMainForm() {
+		return starterForm;
 	}
 }

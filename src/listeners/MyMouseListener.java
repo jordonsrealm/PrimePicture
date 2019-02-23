@@ -4,23 +4,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import components.MainForm;
+import containers.ComponentManager;
 
 
 public class MyMouseListener extends MouseAdapter {
 
-	MainForm mainForm;
+	ComponentManager componentManager;
 	
 	
-	public MyMouseListener(MainForm form) {
-		this.mainForm = form;
+	public MyMouseListener(ComponentManager componentManager) {
+		this.componentManager = componentManager;
 	}
 	
 	 @Override
      public void mouseClicked(MouseEvent e){
-		mainForm.getComponentManager().getProgressBar().setStringPainted(true);
+		 componentManager.getProgressBar().setStringPainted(true);
 		
 		// This allows the default string be painted
-		mainForm.setProgressString(null);
-		mainForm.getComponentManager().getProgressBar().setValue(0);
+		 componentManager.getProgressBar().setString(null);
+		 componentManager.getProgressBar().setValue(0);
      }
 }

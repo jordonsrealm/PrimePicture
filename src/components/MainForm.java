@@ -4,18 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +20,7 @@ import runners.DrawingRunner;
 import runners.PrimeListThread;
 
 
-public class MainForm extends JPanel implements ActionListener{
+public class MainForm extends JPanel {
 
 	static final Logger logger = LogManager.getLogger(MainForm.class.getName());
 	private static final long serialVersionUID = 1L;
@@ -35,8 +28,8 @@ public class MainForm extends JPanel implements ActionListener{
 	private String primePicsDefaultLocation;
 	private Color backGroundColor = null;
 
-	transient MyMouseListener adapter  = null;
-	transient ColorChooserListener listener = null;
+	transient MyMouseListener myMouseListener  = null;
+	transient ColorChooserListener myColorChooserListener = null;
 	
 	private transient DrawingRunner myDrawingRunner;
 	private transient PrimeListThread primeListThread = null;
@@ -44,37 +37,12 @@ public class MainForm extends JPanel implements ActionListener{
 	
 	
 	public MainForm(PrimeListThread rThread, ConfigurationGetter configGetter) {
-		this.listener = getComponentManager().getListener();
 		this.primeListThread = rThread;
 		this.configGetter = configGetter;
-		primePicsDefaultLocation = configGetter.getDesktopFileLocation();
-		
-		makeForm();
-		
+		this.myColorChooserListener = getComponentManager().getListener();
+		this.primePicsDefaultLocation = configGetter.getDesktopFileLocation();
 		this.setPreferredSize(new Dimension(configGetter.getFormWidth(),configGetter.getFormHeight()));
-	}
-	
-	private MainForm makeForm() {
-		
-		this.setLayout(new BorderLayout());
-		
-		createDirectoryForPictures();
-		
-		getComponentManager().getGeneratePic().addActionListener(this);
-		getComponentManager().getProgressBar().setStringPainted(true);
-		getComponentManager().getProgressBar().setMaximum(100);
-		
-		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
-		bottomPanel.add(getComponentManager().getGeneratePic());
-		bottomPanel.add(getComponentManager().getProgressBar());
-		
-		this.add( getMiddlepanel(), BorderLayout.CENTER );
-		this.add( bottomPanel, BorderLayout.SOUTH );
-		
-		return this;
-	}
-	
-	private void createDirectoryForPictures() {
+
 		Path path = Paths.get(primePicsDefaultLocation);
 		
         if (!path.toFile().exists()) {
@@ -84,74 +52,26 @@ public class MainForm extends JPanel implements ActionListener{
                 logger.error("Unable to create directories");
             }
         }
+
+		this.setLayout(new BorderLayout());
+		this.add( getMiddlepanel(), BorderLayout.CENTER );
+		this.add( getBottomPanel(), BorderLayout.SOUTH );
 	}
 
 	private Component getMiddlepanel() {
-        EmptyBorder border = new EmptyBorder(0,10,0,0);		//top,left,bottom,right
-		MyMouseListener myAdapter = new MyMouseListener(this);
-		getComponentManager().getWidthField().addMouseListener( myAdapter );
-		getComponentManager().getWidthField().setBorder( border );
-		getComponentManager().getHeightField().addMouseListener( myAdapter );
-		getComponentManager().getHeightField().setBorder( border );
-		
-		JLabel hLabel = new JLabel("Height");
-		JLabel wLabel = new JLabel("Width");
-		hLabel.setBorder( border );
-		wLabel.setBorder( border );
-		
-		JPanel middlePanel = new JPanel(new GridLayout(3,4));
-		middlePanel.add(wLabel);
-		middlePanel.add(getComponentManager().getWidthField());
-		middlePanel.add(hLabel);
-		middlePanel.add(getComponentManager().getHeightField());
-		middlePanel.add(getComponentManager().getChooser1());
-		middlePanel.add(getComponentManager().getChoose1Label());
-		middlePanel.add(getComponentManager().getChooser3());
-		middlePanel.add(getComponentManager().getChoose3Label());
-		middlePanel.add(getComponentManager().getChooser7());
-		middlePanel.add(getComponentManager().getChoose7Label());
-		middlePanel.add(getComponentManager().getChooser9());
-		middlePanel.add(getComponentManager().getChoose9Label());
-		
-		return middlePanel;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String hTextFieldText = getComponentManager().getHeightField().getText();
-		String wTextFieldText = getComponentManager().getWidthField().getText();
-		
-		// Checks for non numberic characters
-		if( onlyNumbers(hTextFieldText) && onlyNumbers(wTextFieldText) ) {
-			int heightSize = Integer.parseInt(hTextFieldText);
-			int widthSize  = Integer.parseInt(wTextFieldText);
-			
-			BufferedImage buffImage = new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR);
-			ImageHolder imageHolder = new ImageHolder( buffImage, listener.getPrimePalette(), primePicsDefaultLocation, 0);
-			
-			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, primeListThread.getPrimes(), this);
-			myDrawingRunner = new DrawingRunner(parameter);
-			myDrawingRunner.startDrawingPicture();
-		}
+		return new MyMiddlePanel(getComponentManager()).getMiddlePanel();
 	}
 	
-	
-	private boolean onlyNumbers(String text) {
-		// Empty string check
-		if(text.length() == 0) {
-			logger.debug("No input value for text field");
-			return false;
-		}
-		if( !text.matches(".*\\D.*") && Integer.parseInt(text) > configGetter.getMaxDimension()) {
-			logger.debug("Input value is too large to process");
-			return false;
-		} else {
-			return true;
-		}
+	private Component getBottomPanel() {
+		return new MyBottomPanel(this).getBottomPanel();
 	}
 	
 	public DrawingRunner getMyDrawingRunner() {
 		return myDrawingRunner;
+	}
+	
+	public void setMyDrawingRunner(DrawingRunner runner) {
+		this.myDrawingRunner = runner;
 	}
 	
 	public void setReadingThread(PrimeListThread readThread) {
@@ -187,11 +107,11 @@ public class MainForm extends JPanel implements ActionListener{
 	}
 
 	public MyMouseListener getAdapter() {
-		return adapter;
+		return myMouseListener;
 	}
 
 	public ColorChooserListener getListener() {
-		return listener;
+		return myColorChooserListener;
 	}
 
 	public ComponentManager getComponentManager() {
