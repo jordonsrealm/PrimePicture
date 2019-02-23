@@ -17,10 +17,10 @@ public class MyMouseListener extends MouseAdapter {
 	
 	 @Override
      public void mouseClicked(MouseEvent e){
-		mainForm.getProgressBar().setStringPainted(true);
+		mainForm.getComponentManager().getProgressBar().setStringPainted(true);
 		
 		// This allows the default string be painted
 		mainForm.setProgressString(null);
-		mainForm.setProgressValue(0);
+		mainForm.getComponentManager().getProgressBar().setValue(0);
      }
 }

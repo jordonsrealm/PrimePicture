@@ -33,8 +33,11 @@ public class Starter {
 	public Starter() throws IOException {
 		frame = new JFrame( configGetter.getTitle() );
 		frame.setJMenuBar( new MyMenuBar(this.form) );
+		
+		// Main guts of the operation occurs here
 		form = new MainForm( primeListReader, configGetter);
 		
+		// Adds icon to the JFrame
 		addIconImage( configGetter.getIconFileLocation() );
 		addFrameFormatting( frame );
 	}
@@ -68,7 +71,7 @@ public class Starter {
 	
 	// Loads the prime numbers
 	private void loadPrimes() {
-		starter.getForm().disableGeneration();
+		starter.getForm().disableGeneration();;
 		starter.getForm().setProgressString("Loading Primes...");
 		
 		primeListReader.startReadingPrimes();

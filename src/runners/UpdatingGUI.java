@@ -52,7 +52,7 @@ public class UpdatingGUI implements Runnable{
 			} else {
 				mainForm.setProgressString("Settings pixels for image...");
 			}
-			mainForm.setProgressValue(progressValue);
+			mainForm.getComponentManager().getProgressBar().setValue(progressValue);
 			mainForm.repaint();
 		}
 		
@@ -68,7 +68,7 @@ public class UpdatingGUI implements Runnable{
 			}
 		}
 		
-		mainForm.getProgressBar().setStringPainted(true);
+		mainForm.getComponentManager().getProgressBar().setStringPainted(true);
 		mainForm.setProgressString("Finished");
 		mainForm.enableGeneration();
 	}

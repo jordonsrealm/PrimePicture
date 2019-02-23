@@ -10,8 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import components.ColorHolder;
-import components.MainForm;
 import components.PrimePalette;
+import containers.ComponentManager;
 
 
 public class ColorChooserListener implements ActionListener {
@@ -29,7 +29,7 @@ public class ColorChooserListener implements ActionListener {
 	private JLabel label9 = null;
 	
 	private Color backgroundColor = null;
-	private MainForm mainForm = null;
+	private ComponentManager mainForm = null;
 	
 	private String prime1Text = "Choose color for primes ending in '1'";
 	private String prime3Text = "Choose color for primes ending in '3'";
@@ -37,12 +37,11 @@ public class ColorChooserListener implements ActionListener {
 	private String prime9Text = "Choose color for primes ending in '9'";
 	
 	
-	public ColorChooserListener(MainForm form) {
-		this.mainForm = form;
-		label1 = form.getChoose1Label();
-		label3 = form.getChoose3Label();
-		label7 = form.getChoose7Label();
-		label9 = form.getChoose9Label();
+	public ColorChooserListener(JLabel label1,JLabel label3,JLabel label7,JLabel label9) {
+		this.label1 = label1;
+		this.label3 = label3;
+		this.label7 = label7;
+		this.label9 = label9;
 		this.setBackgroundColor( new Color(0,0,0,0) );
 	}
 	
@@ -51,26 +50,25 @@ public class ColorChooserListener implements ActionListener {
 		String buttonText = ((JButton) e.getSource() ).getText();
 		String compareStr = buttonText.charAt(buttonText.length() - 1) + "";
 		switch (compareStr){
-		case "1": primes1 = JColorChooser.showDialog(mainForm, prime1Text, Color.WHITE);
-				  this.label1.setBackground(primes1);
+		case "1": this.primes1 = JColorChooser.showDialog(label1, prime1Text, Color.WHITE);
+				  label1.setBackground(primes1);
 				  break;
-		case "3": primes3 = JColorChooser.showDialog(mainForm, prime3Text, Color.WHITE);
-				  this.label3.setBackground(primes3);
+		case "3": this.primes3 = JColorChooser.showDialog(label3, prime3Text, Color.WHITE);
+				  label3.setBackground(primes3);
 				  break;
-		case "7": primes7 = JColorChooser.showDialog(mainForm, prime7Text, Color.WHITE);
-				  this.label7.setBackground(primes7);
+		case "7": this.primes7 = JColorChooser.showDialog(label7, prime7Text, Color.WHITE);
+				  label7.setBackground(primes7);
 			      break;
-		case "9": primes9 = JColorChooser.showDialog(mainForm, prime9Text, Color.WHITE);
-				  this.label9.setBackground(primes9);
+		case "9": this.primes9 = JColorChooser.showDialog(label9, prime9Text, Color.WHITE);
+				  label9.setBackground(primes9);
 			      break;
-		default:  mainForm.repaint();
+		default:  mainForm.getChoose1Label().invalidate();
 		}
 	}
 	
 	public PrimePalette getPrimePalette() {
 		return new PrimePalette( new ColorHolder( primes1, primes3, primes7, primes9), this.backgroundColor);
 	}
-
 	
 	public Color getBackgroundColor() {
 		return backgroundColor;

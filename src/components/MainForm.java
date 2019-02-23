@@ -12,17 +12,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import configuration.ConfigurationGetter;
+import containers.ComponentManager;
 import listeners.ColorChooserListener;
 import listeners.MyMouseListener;
 import runners.DrawingRunner;
@@ -37,23 +35,8 @@ public class MainForm extends JPanel implements ActionListener{
 	private String primePicsDefaultLocation;
 	private Color backGroundColor = null;
 
-	private JTextField heightField;
-	private JTextField widthField;
 	transient MyMouseListener adapter  = null;
 	transient ColorChooserListener listener = null;
-	
-	private JButton chooser1 = new JButton("Ends with 1");
-	private JButton chooser3 = new JButton("Ends with 3");
-	private JButton chooser7 = new JButton("Ends with 7");
-	private JButton chooser9 = new JButton("Ends with 9");
-
-	private JLabel choose1Label = new JLabel();
-	private JLabel choose3Label = new JLabel();
-	private JLabel choose7Label = new JLabel();
-	private JLabel choose9Label = new JLabel();
-	
-	private JButton generatePic    = new JButton("Create Picture");
-	private JProgressBar progressBar = new JProgressBar();
 	
 	private transient DrawingRunner myDrawingRunner;
 	private transient PrimeListThread primeListThread = null;
@@ -61,7 +44,7 @@ public class MainForm extends JPanel implements ActionListener{
 	
 	
 	public MainForm(PrimeListThread rThread, ConfigurationGetter configGetter) {
-		this.listener = new ColorChooserListener(this);
+		this.listener = getComponentManager().getListener();
 		this.primeListThread = rThread;
 		this.configGetter = configGetter;
 		primePicsDefaultLocation = configGetter.getDesktopFileLocation();
@@ -76,19 +59,16 @@ public class MainForm extends JPanel implements ActionListener{
 		this.setLayout(new BorderLayout());
 		
 		createDirectoryForPictures();
-
-        EmptyBorder border = new EmptyBorder(0,10,0,0);		//top,left,bottom,right
-        setColorChoosers( border );
 		
-		generatePic.addActionListener(this);
-		progressBar.setStringPainted(true);
-		progressBar.setMaximum(100);
+		getComponentManager().getGeneratePic().addActionListener(this);
+		getComponentManager().getProgressBar().setStringPainted(true);
+		getComponentManager().getProgressBar().setMaximum(100);
 		
 		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
-		bottomPanel.add(generatePic);
-		bottomPanel.add(progressBar);
+		bottomPanel.add(getComponentManager().getGeneratePic());
+		bottomPanel.add(getComponentManager().getProgressBar());
 		
-		this.add( getMiddlepanel( border ), BorderLayout.CENTER );
+		this.add( getMiddlepanel(), BorderLayout.CENTER );
 		this.add( bottomPanel, BorderLayout.SOUTH );
 		
 		return this;
@@ -106,15 +86,13 @@ public class MainForm extends JPanel implements ActionListener{
         }
 	}
 
-	private Component getMiddlepanel( EmptyBorder border ) {
-		int textFieldLength = configGetter.getTextFieldLength();
+	private Component getMiddlepanel() {
+        EmptyBorder border = new EmptyBorder(0,10,0,0);		//top,left,bottom,right
 		MyMouseListener myAdapter = new MyMouseListener(this);
-		widthField = new JTextField(textFieldLength);
-		heightField = new JTextField(textFieldLength);
-		widthField.addMouseListener( myAdapter );
-		widthField.setBorder( border );
-		heightField.addMouseListener( myAdapter );
-		heightField.setBorder( border );
+		getComponentManager().getWidthField().addMouseListener( myAdapter );
+		getComponentManager().getWidthField().setBorder( border );
+		getComponentManager().getHeightField().addMouseListener( myAdapter );
+		getComponentManager().getHeightField().setBorder( border );
 		
 		JLabel hLabel = new JLabel("Height");
 		JLabel wLabel = new JLabel("Width");
@@ -123,42 +101,25 @@ public class MainForm extends JPanel implements ActionListener{
 		
 		JPanel middlePanel = new JPanel(new GridLayout(3,4));
 		middlePanel.add(wLabel);
-		middlePanel.add(widthField);
+		middlePanel.add(getComponentManager().getWidthField());
 		middlePanel.add(hLabel);
-		middlePanel.add(heightField);
-		middlePanel.add(chooser1);
-		middlePanel.add(choose1Label);
-		middlePanel.add(chooser3);
-		middlePanel.add(choose3Label);
-		middlePanel.add(chooser7);
-		middlePanel.add(choose7Label);
-		middlePanel.add(chooser9);
-		middlePanel.add(choose9Label);
+		middlePanel.add(getComponentManager().getHeightField());
+		middlePanel.add(getComponentManager().getChooser1());
+		middlePanel.add(getComponentManager().getChoose1Label());
+		middlePanel.add(getComponentManager().getChooser3());
+		middlePanel.add(getComponentManager().getChoose3Label());
+		middlePanel.add(getComponentManager().getChooser7());
+		middlePanel.add(getComponentManager().getChoose7Label());
+		middlePanel.add(getComponentManager().getChooser9());
+		middlePanel.add(getComponentManager().getChoose9Label());
 		
 		return middlePanel;
 	}
 
-	private void setColorChoosers(EmptyBorder border) {
-        listener = new ColorChooserListener(this);
-        chooser1.addActionListener(listener);
-        chooser3.addActionListener(listener);
-        chooser7.addActionListener(listener);
-        chooser9.addActionListener(listener);
-
-		choose1Label.setOpaque(true);		
-		choose3Label.setOpaque(true);
-		choose7Label.setOpaque(true);
-		choose9Label.setOpaque(true);
-		choose1Label.setBorder( border );
-		choose3Label.setBorder( border );
-		choose7Label.setBorder( border );
-		choose9Label.setBorder( border );
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String hTextFieldText = heightField.getText();
-		String wTextFieldText = widthField.getText();
+		String hTextFieldText = getComponentManager().getHeightField().getText();
+		String wTextFieldText = getComponentManager().getWidthField().getText();
 		
 		// Checks for non numberic characters
 		if( onlyNumbers(hTextFieldText) && onlyNumbers(wTextFieldText) ) {
@@ -188,49 +149,9 @@ public class MainForm extends JPanel implements ActionListener{
 			return true;
 		}
 	}
-
-	public JButton getChooser1() {
-		return chooser1;
-	}
-
-	public JButton getChooser3() {
-		return chooser3;
-	}
-
-	public JButton getChooser7() {
-		return chooser7;
-	}
-
-	public JButton getChooser9() {
-		return chooser9;
-	}
-	
-	public JLabel getChoose1Label() {
-		return choose1Label;
-	}
-
-	public JLabel getChoose3Label() {
-		return choose3Label;
-	}
-
-	public JLabel getChoose7Label() {
-		return choose7Label;
-	}
-
-	public JLabel getChoose9Label() {
-		return choose9Label;
-	}
-	
-	public JProgressBar getProgressBar() {
-		return progressBar;
-	}
 	
 	public DrawingRunner getMyDrawingRunner() {
 		return myDrawingRunner;
-	}
-	
-	public JButton getGeneratePicButton() {
-		return generatePic;
 	}
 	
 	public void setReadingThread(PrimeListThread readThread) {
@@ -252,20 +173,44 @@ public class MainForm extends JPanel implements ActionListener{
 	public ConfigurationGetter getConfigGetter() {
 		return configGetter;
 	}
-	
-	public void setProgressString(String str) {
-		progressBar.setString(str);
+
+	public static Logger getLogger() {
+		return logger;
 	}
-	
-	public void setProgressValue(Integer value) {
-		progressBar.setValue(value);
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getPrimePicsDefaultLocation() {
+		return primePicsDefaultLocation;
+	}
+
+	public MyMouseListener getAdapter() {
+		return adapter;
+	}
+
+	public ColorChooserListener getListener() {
+		return listener;
+	}
+
+	public ComponentManager getComponentManager() {
+		return ComponentManager.getInstance();
+	}
+
+	public PrimeListThread getPrimeListThread() {
+		return primeListThread;
 	}
 	
 	public void disableGeneration() {
-		generatePic.setEnabled(false);
+		getComponentManager().getGeneratePic().setEnabled(false);
 	}
 	
 	public void enableGeneration() {
-		generatePic.setEnabled(true);
+		getComponentManager().getGeneratePic().setEnabled(true);
+	}
+	
+	public void setProgressString(String progress) {
+		getComponentManager().getProgressBar().setString(progress);
 	}
 }
