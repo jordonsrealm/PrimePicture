@@ -23,9 +23,9 @@ public class Starter {
 	private static final Logger logger = LogManager.getLogger(Starter.class.getName());
 	
 	private JFrame starterFrame;
-	private PrimeListThread primeListReader = new PrimeListThread();
 	private MainForm starterForm;
 	private static Starter starter;
+	private PrimeListThread primeListReader = new PrimeListThread();
 	private ConfigurationGetter configGetter = new ConfigurationGetter();
 	
 	
@@ -71,13 +71,13 @@ public class Starter {
 	
 	// Loads the prime numbers
 	private void loadPrimes() {
-		starter.getMainForm().disableGeneration();
+		starter.getMainForm().disablePictureGeneration();
 		starter.getMainForm().setProgressString("Loading Primes...");
 		
 		primeListReader.startReadingPrimes();
 		
 		starter.getMainForm().setProgressString("Loaded Primes!");
-		starter.getMainForm().enableGeneration();
+		starter.getMainForm().enablePictureGeneration();
 	}
 	
 	// Adds formatting to JFrame and set Image Icon

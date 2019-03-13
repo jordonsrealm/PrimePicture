@@ -21,8 +21,8 @@ import runners.PrimeListThread;
 
 
 public class MainForm extends JPanel {
-
-	static final Logger logger = LogManager.getLogger(MainForm.class.getName());
+	private static final Logger logger = LogManager.getLogger(MainForm.class.getName());
+	
 	private static final long serialVersionUID = 1L;
 	
 	private String primePicsDefaultLocation;
@@ -39,9 +39,8 @@ public class MainForm extends JPanel {
 	public MainForm(PrimeListThread rThread, ConfigurationGetter configGetter) {
 		this.primeListThread = rThread;
 		this.configGetter = configGetter;
-		this.myColorChooserListener = getComponentManager().getListener();
+		this.myColorChooserListener = getComponentManager().getColorChooserListener();
 		this.primePicsDefaultLocation = configGetter.getDesktopFileLocation();
-		this.setPreferredSize(new Dimension(configGetter.getFormWidth(),configGetter.getFormHeight()));
 
 		Path path = Paths.get(primePicsDefaultLocation);
 		
@@ -53,6 +52,7 @@ public class MainForm extends JPanel {
             }
         }
 
+		this.setPreferredSize(new Dimension(configGetter.getFormWidth(),configGetter.getFormHeight()));
 		this.setLayout(new BorderLayout());
 		this.add( getMiddlepanel(), BorderLayout.CENTER );
 		this.add( getBottomPanel(), BorderLayout.SOUTH );
@@ -106,11 +106,11 @@ public class MainForm extends JPanel {
 		return primePicsDefaultLocation;
 	}
 
-	public MyMouseListener getAdapter() {
+	public MyMouseListener getMyMouseListener() {
 		return myMouseListener;
 	}
 
-	public ColorChooserListener getListener() {
+	public ColorChooserListener getColorChooserListener() {
 		return myColorChooserListener;
 	}
 
@@ -122,11 +122,11 @@ public class MainForm extends JPanel {
 		return primeListThread;
 	}
 	
-	public void disableGeneration() {
+	public void disablePictureGeneration() {
 		getComponentManager().getGeneratePic().setEnabled(false);
 	}
 	
-	public void enableGeneration() {
+	public void enablePictureGeneration() {
 		getComponentManager().getGeneratePic().setEnabled(true);
 	}
 	

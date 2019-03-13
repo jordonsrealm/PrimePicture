@@ -31,7 +31,7 @@ public class CreatePictureListener implements ActionListener {
 			int widthSize  = Integer.parseInt(wTextFieldText);
 			
 			BufferedImage buffImage = new BufferedImage(widthSize, heightSize, BufferedImage.TYPE_4BYTE_ABGR);
-			ImageHolder imageHolder = new ImageHolder( buffImage, mainForm.getListener().getPrimePalette(), mainForm.getPrimePicsDefaultLocation(), 0);
+			ImageHolder imageHolder = new ImageHolder( buffImage, mainForm.getColorChooserListener().getPrimePalette(), mainForm.getPrimePicsDefaultLocation(), 0);
 			
 			DrawingRunnableParameter parameter = new DrawingRunnableParameter(imageHolder, mainForm.getPrimeListThread().getPrimes(), mainForm);
 			mainForm.setMyDrawingRunner( new DrawingRunner(parameter));

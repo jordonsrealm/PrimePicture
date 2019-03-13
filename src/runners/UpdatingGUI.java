@@ -43,7 +43,7 @@ public class UpdatingGUI implements Runnable{
 	
 	@Override
 	public void run() {
-		mainForm.disableGeneration();
+		mainForm.disablePictureGeneration();
 		
 		while(mainForm.getMyDrawingRunner().getIndex() > -1){
 			int progressValue = this.mainForm.getMyDrawingRunner().getProgress();
@@ -70,6 +70,6 @@ public class UpdatingGUI implements Runnable{
 		
 		mainForm.getComponentManager().getProgressBar().setStringPainted(true);
 		mainForm.setProgressString("Finished");
-		mainForm.enableGeneration();
+		mainForm.enablePictureGeneration();
 	}
 }
